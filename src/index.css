@@ -1,6 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
+
 :root {
   --color-primary: #d8a05a; /* 빵 느낌의 베이지 */
   --color-primary-dark: #b48442; /* 눌렀을 때 */
   --color-background: #fff9f1; /* 부드러운 배경 */
   --color-text: #4a3b2a; /* 따뜻한 브라운 */
+}
+
+html, body {
+  margin : 0px;
+  width: 100%;
+  background-color: #4a3b2a; /*개발 편의를 위해 배경 색 변경 -> 추후 변경예정*/
+
+}
+
+#root {
+  background-color : white;
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  min-height: 100vh;
+  height: 100%;
+  box-shadow: rgba(100, 100, 100, 0.2) 0px 0px 29px 0px;
+}
+
+body *{
+  font-family: 'Noto Sans KR', sans-serif;
 }
