@@ -1,7 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './welfare_home.css';
 import logo from '@/assets/logo.svg';
 import icon_search from '@/assets/icon_search.svg';
+
+//API
+import { fetchPosts } from '@/api/welfareApi.js';
+
+//Components
+import PostCard from './postCard.jsx';
 
 const SORT_OPTIONS = [
   { id: 'default', label: '기본' },
@@ -11,6 +17,21 @@ const SORT_OPTIONS = [
 
 export default function WelfareHome() {
   const [sortType, setSortType] = useState('default'); // 현재 선택된 정렬
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // sortType이 바뀔 때마다 목록 다시 불러오기
+    setLoading(true);
+    fetchPosts(sortType)
+      .then((data) => {
+        setPosts(data);
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => setLoading(false));
+  }, [sortType]);
 
   return (
     <div className="welfare-container">
@@ -38,6 +59,14 @@ export default function WelfareHome() {
           >
             {option.label}
           </button>
+        ))}
+      </div>
+
+      {loading && <p className="loading-text">불러오는 중...</p>}
+
+      <div className="post-list">
+        {posts.map((post) => (
+          <PostCard key={post.uuid} post={post} />
         ))}
       </div>
     </div>

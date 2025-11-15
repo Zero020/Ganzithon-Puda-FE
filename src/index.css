@@ -1,6 +1,12 @@
 :root {
-  --color-primary: #C67C4E; /* 메인 컬러 */
-  --color-primary-dark: #E7E5E4; /* 어두운 톤 */
+  --color-primary: #c67c4e; /* 메인 컬러 */
+  --color-primary-dark: #e7e5e4; /* 어두운 톤 */
   --color-background: #ffffff; /* 부드러운 배경 */
   --font-main: 'Arimo', sans-serif; /* 기본 폰트 */
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden; /* ⬅️ 이걸로 기본 스크롤 막기 */
 }
