@@ -1,29 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
-
 :root {
-  --color-primary: #d8a05a; /* »§ ´À³¦ÀÇ º£ÀÌÁö */
-  --color-primary-dark: #b48442; /* ´­·¶À» ¶§ */
-  --color-background: #fff9f1; /* ºÎµå·¯¿î ¹è°æ */
-  --color-text: #4a3b2a; /* µû¶æÇÑ ºê¶ó¿î */
+  --color-primary: #c67c4e; /* ë©”ì¸ ì»¬ëŸ¬ */
+  --color-primary-dark: #e7e5e4; /* ì–´ë‘ìš´ í†¤ */
+  --color-background: #ffffff; /* ë¶€ë“œëŸ¬ìš´ ë°°ê²½ */
+  --font-main: 'Arimo', sans-serif; /* ê¸°ë³¸ í°íŠ¸ */
 }
 
-html, body {
-  margin : 0px;
-  width: 100%;
-  background-color: #4a3b2a; /*°³¹ß ÆíÀÇ¸¦ À§ÇØ ¹è°æ »ö º¯°æ -> ÃßÈÄ º¯°æ¿¹Á¤*/
-
-}
-
-#root {
-  background-color : white;
-  max-width: 600px;
-  width: 100%;
-  margin: 0 auto;
-  min-height: 100vh;
+html,
+body {
   height: 100%;
-  box-shadow: rgba(100, 100, 100, 0.2) 0px 0px 29px 0px;
-}
-
-body *{
-  font-family: 'Noto Sans KR', sans-serif;
+  overflow: hidden; /* â¬…ï¸ ì´ê±¸ë¡œ ê¸°ë³¸ ìŠ¤í¬ë¡¤ ë§‰ê¸° */
 }

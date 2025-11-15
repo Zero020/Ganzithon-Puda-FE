@@ -1,0 +1,19 @@
+const BASE_URL = import.meta.env.VITE_API_BASE_URL; // 나중에 백엔드 주소 넣을 곳
+const USE_MOCK = import.meta.env.VITE_USE_MOCK === 'true';
+
+export async function fetchPosts(sortType) {
+  if (USE_MOCK || !BASE_URL) {
+    // 🔹 개발 중: 더미 JSON 사용
+    const res = await fetch('../mocks/posts.json');
+    if (!res.ok) throw new Error('mock 데이터 불러오기 실패');
+    const data = await res.json();
+    // 필요하면 여기서 sortType에 따라 정렬해도 됨
+    return data;
+  }
+
+  // 🔹 나중에 실제 백엔드 붙일 때 여기만 고치면 됨
+  const res = await fetch(`${BASE_URL}/stores?sort=${sortType}`);
+  if (!res.ok) throw new Error('API 요청 실패');
+  const data = await res.json();
+  return data;
+}

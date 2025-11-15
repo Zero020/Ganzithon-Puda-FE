@@ -1,0 +1,98 @@
+[
+  {
+    "uuid": "1111-1111",
+    "foodName": "샌드위치 세트",
+    "quantity": 155,
+    "deadline": "2025-12-31T23:59:59Z",
+    "storeId": "store-001",
+    "lat": 37.5665,
+    "lng": 126.978,
+    "address": "서울특별시 중구 세종대로 110",
+    "addressDetail": "1층",
+    "isReserved": true,
+    "foodImgs": [
+      "https://recipe1.ezmember.co.kr/cache/recipe/2021/11/04/641c9437db7a67ab4d3bd8692283de921.jpg",
+      "https://recipe1.ezmember.co.kr/cache/recipe/2017/09/08/6617b09eb667bf3cc412e54c4ee2c3171.jpg"
+    ]
+  },
+  {
+    "uuid": "2222-2222",
+    "foodName": "남은 베이글",
+    "quantity": 48,
+    "deadline": "2025-11-22T21:00:00Z",
+    "storeId": "store-002",
+    "lat": 37.4981,
+    "lng": 127.0276,
+    "address": "서울특별시 강남구 테헤란로 152",
+    "addressDetail": "지하 1층",
+    "isReserved": false,
+    "foodImgs": [
+      "https://d2afncas1tel3t.cloudfront.net/wp-content/uploads/2023/02/%ED%94%8C%EB%A0%88%EC%9D%B8%EB%B2%A0%EC%9D%B4%EA%B8%80_0001.jpg",
+      "https://lh6.googleusercontent.com/proxy/u9TKCMbdti3U6RFvWg1OwhZ7tMmSOzGGL1bqTUKg_fCpKTBFsHxFGd8wZum5KA4abt-RIJeYBnJ62FxrhQeBbaW-SYox_FXfWtDtw_D--y2W9iu51jx6yo9jdUWKFdi9LY9LHVFkQmtdOGE8"
+    ]
+  },
+  {
+    "uuid": "3333-3333",
+    "foodName": "유통기한 임박 도시락",
+    "quantity": 23,
+    "deadline": "2025-10-14T17:30:00Z",
+    "storeId": "store-003",
+    "lat": 37.5482,
+    "lng": 126.941,
+    "address": "서울특별시 마포구 백범로 35",
+    "addressDetail": "2층",
+    "isReserved": false,
+    "foodImgs": [
+      "https://i.namu.wiki/i/bgdg-xU_savJ_dQs_b90XAxxGTUXNUifVIQw_s5EcvK07hRcxgOle-4A-WL4p5gVl8W6uuUL0JpJ65If5Kcyeg.webp",
+      "https://the-edit.co.kr/wp-content/uploads/2024/06/DSC01953-1.jpg"
+    ]
+  },
+  {
+    "uuid": "4444-4444",
+    "foodName": "갓구운 크루아상",
+    "quantity": 12,
+    "deadline": "2025-09-01T18:00:00Z",
+    "storeId": "store-004",
+    "lat": 37.5662,
+    "lng": 126.982,
+    "address": "서울특별시 종로구 종로3길 17",
+    "addressDetail": "1층",
+    "isReserved": false,
+    "foodImgs": [
+      "https://d2afncas1tel3t.cloudfront.net/wp-content/uploads/2022/05/04221611/b1.png",
+      "https://cdn.ddengle.com/1e57575ba402571e90d003539278a97d.png"
+    ]
+  },
+  {
+    "uuid": "1212-1212",
+    "foodName": "크림치즈 프렛젤",
+    "quantity": 11,
+    "deadline": "2025-11-05T18:00:00Z",
+    "storeId": "store-010",
+    "lat": 37.5208,
+    "lng": 126.9264,
+    "address": "서울특별시 영등포구 국제금융로 86",
+    "addressDetail": "1층",
+    "isReserved": true,
+    "foodImgs": [
+      "https://recipe1.ezmember.co.kr/cache/recipe/2021/10/24/9c41b9ec52e2e66015c29bdc825c57d91.jpg",
+      "https://static.coupangcdn.com/image/vendor_inventory/0e0e5ba8ca8775bb7895fd7d5cb5e1fc438ac921616e5ca82c3b8bfe1086a503.jpg"
+    ]
+  },
+  {
+    "uuid": "1313-1313",
+    "foodName": "우유 크림 스콘",
+    "quantity": 27,
+    "deadline": "2025-08-28T13:30:00Z",
+    "storeId": "store-011",
+    "lat": 37.5833,
+    "lng": 126.9982,
+    "address": "서울특별시 종로구 대학로 14",
+    "addressDetail": "2층",
+    "isReserved": false,
+    "foodImgs": [
+      "https://cdn.imweb.me/thumbnail/20221108/f290a5a4ef285.jpg",
+      "https://i.ytimg.com/vi/2erzvzlVSmU/maxresdefault.jpg"
+    ]
+  }
+]
