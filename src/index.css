@@ -1,16 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
 
 :root {
-  --color-primary: #d8a05a; /* ë¹µ ëŠë‚Œì˜ ë² ì´ì§€ */
-  --color-primary-dark: #b48442; /* ëˆŒë €ì„ ë•Œ */
-  --color-background: #fff9f1; /* ë¶€ë“œëŸ¬ìš´ ë°°ê²½ */
-  --color-text: #4a3b2a; /* ë”°ëœ»í•œ ë¸Œë¼ìš´ */
+  --color-primary: #d8a05a; /* »§ ´À³¦ÀÇ º£ÀÌÁö */
+  --color-primary-dark: #b48442; /* ´­·¶À» ¶§ */
+  --color-background: #fff9f1; /* ºÎµå·¯¿î ¹è°æ */
+  --color-text: #4a3b2a; /* µû¶æÇÑ ºê¶ó¿î */
 }
 
 html, body {
   margin : 0px;
   width: 100%;
-  background-color: #4a3b2a; /*ê°œë°œ íŽ¸ì˜ë¥¼ ìœ„í•´ ë°°ê²½ ìƒ‰ ë³€ê²½ -> ì¶”í›„ ë³€ê²½ì˜ˆì •*/
+  background-color: #4a3b2a; /*°³¹ß ÆíÀÇ¸¦ À§ÇØ ¹è°æ »ö º¯°æ -> ÃßÈÄ º¯°æ¿¹Á¤*/
 
 }
 

@@ -5,7 +5,6 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import FirstVisit from "./pages/FirstVisit";
 
-//라우팅 관리
 function App() {
   return (
     <Routes>
