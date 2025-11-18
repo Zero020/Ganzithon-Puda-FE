@@ -3,7 +3,6 @@
     flex-direction: column;
     gap: 3rem;
     margin-top: 8px;
-    min-width: 20.5rem;
     width: 100%;
     margin: 0 auto;
 }
@@ -11,11 +10,13 @@
 .input-wrapper {
     display: flex;
     align-items: center;
+    box-sizing: border-box;
     gap: 8px;
     padding: 0 1rem;
     background: var(--color-secondary);
     border-radius: 0.9rem;
     height: 3rem;
+    width: 100%;
     border: 0.821px solid #E7E5E4;
 }
 

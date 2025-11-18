@@ -6,7 +6,9 @@ import WelfareLayout from './pages/welfareLayout.jsx';
 import Landing from './pages/landing.jsx';
 import LoginLayout from './pages/loginLayout.jsx';
 import SignupLayout from './pages/signupLayout.jsx';
+//import Store from './pages/storeTabs/store_home.jsx';
 import StoreLayout from './pages/storeLayout.jsx';
+
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

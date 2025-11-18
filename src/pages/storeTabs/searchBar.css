@@ -1,4 +1,5 @@
 .search-bar {
+  height: 44px;
   width: 100%;
   background-color: #fff;
   border-radius: 1.875rem;
@@ -24,8 +25,14 @@
   font-size: 1rem;
   line-height: normal;
   font-weight: 500;
-  color: #171717;}
+  color: #171717;
+}
 
 .search-bar-input::placeholder {
-  color: var(--sub-text-color);
+  color: var(--grayscale-, var(--GNB, #B3B3B3));
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
