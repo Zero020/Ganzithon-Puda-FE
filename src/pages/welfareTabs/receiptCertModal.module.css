@@ -1,0 +1,232 @@
+/* 전체 뒷배경 (반투명 회색) */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.4);
+  animation: backdropFadeIn 0.25s ease forwards;
+}
+
+.backdropClosing {
+  position: fixed;
+  inset: 0;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.4);
+  animation: backdropFadeOut 0.25s ease-out forwards;
+}
+
+/* 가운데 카드 */
+.modal {
+  width: 90%;
+  max-width: 360px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1rem 2rem 2rem 2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  animation: modalSlideUp 0.25s ease-out forwards;
+}
+
+.modalClosing {
+  width: 90%;
+  max-width: 360px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1rem 2rem 2rem 2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  animation: modalSlideDown 0.25s ease-in forwards;
+}
+
+/* 헤더 영역 */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.title {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.closeButton {
+  border: none;
+  background: transparent;
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* 설명 텍스트 */
+.description {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-bottom: 16px;
+}
+
+/* 단계 표시 */
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding: 0 4rem;
+}
+
+.stepCircle {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+.stepCircleActive {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #ffffff;
+}
+
+.stepLine {
+  flex: 1;
+  height: 2px;
+  background: #d1d5dc;
+}
+
+/* 섹션 라벨 */
+.sectionLabel {
+  display: flex;
+  flex-direction: row;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  color: #364153;
+  font-weight: 400;
+}
+
+.sectionStrongText {
+  font-size: 0.8rem;
+  margin-left: 0.3rem;
+  color: #fc5c5c;
+}
+
+/* 업로드 박스 */
+.uploadBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--color-primary);
+  border-radius: 16px;
+  height: 150px;
+  margin-bottom: 24px;
+  cursor: pointer;
+}
+
+.fileInput {
+  display: none;
+}
+
+.uploadIcon {
+  width: 2rem;
+  height: auto;
+  margin-bottom: 0.5rem;
+}
+
+.uploadText {
+  font-size: 0.9rem;
+  color: #4a5565;
+}
+
+/* 푸터 버튼 영역 */
+.footer {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.buttonSecondary,
+.buttonPrimary {
+  flex: 1;
+  height: 3rem;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  border: 1px solid transparent;
+}
+
+/* 취소 버튼 */
+.buttonSecondary {
+  background: #ffffff;
+  border-color: #d1d5db;
+}
+
+/* 다음 단계 버튼 */
+.buttonPrimary {
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+.buttonPrimaryDisabled {
+  flex: 1;
+  height: 3rem;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  border: 1px solid transparent;
+
+  background: var(--color-primary);
+  opacity: 0.6;
+  color: #ffffff;
+  cursor: not-allowed;
+}
+
+@keyframes backdropFadeIn {
+  from {
+    background: rgba(0, 0, 0, 0);
+  }
+  to {
+    background: rgba(0, 0, 0, 0.4);
+  }
+}
+
+@keyframes backdropFadeOut {
+  from {
+    background: rgba(0, 0, 0, 0.4);
+  }
+  to {
+    background: rgba(0, 0, 0, 0);
+  }
+}
+
+@keyframes modalSlideUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes modalSlideDown {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+}

@@ -1,0 +1,325 @@
+/* ==== 공통: 백드롭 & 애니메이션 ==== */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 100%;
+
+  background: rgba(0, 0, 0, 0);
+  animation: backdropFadeIn 0.25s ease-out forwards;
+}
+
+.backdropClosing {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 100%;
+
+  background: rgba(0, 0, 0, 0.4);
+  animation: backdropFadeOut 0.25s ease-out forwards;
+}
+
+.modal {
+  width: 90%;
+  max-width: 360px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1rem 2rem 2rem 2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+  animation: modalSlideUp 0.3s ease-out forwards;
+}
+
+.modalClosing {
+  width: 90%;
+  max-width: 360px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1rem 2rem 2rem 2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+  animation: modalSlideDown 0.3s ease-in forwards;
+}
+
+/* ==== 헤더 ==== */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.title {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.closeButton {
+  border: none;
+  background: transparent;
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* 설명 텍스트 */
+.description {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-bottom: 16px;
+}
+
+/* ==== 단계 표시 ==== */
+
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding: 0 4rem;
+}
+
+.stepCircle {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+.stepCircleActive {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #ffffff;
+}
+
+.stepLine {
+  flex: 1;
+  height: 2px;
+  background: #d1d5dc;
+}
+
+/* ==== 필드 공통 ==== */
+
+.fieldGroup {
+  margin-bottom: 16px;
+}
+
+.fieldLabel {
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+  color: #364153;
+}
+
+.requiredMark {
+  color: #ef4444;
+  margin-left: 2px;
+}
+
+/* ==== 텍스트 영역 ==== */
+
+.textareaWrapper {
+  position: relative;
+  border-radius: 16px;
+  background: #f3f4f6;
+  padding: 10px 12px 18px;
+}
+
+.textarea {
+  width: 100%;
+  border: none;
+  background: transparent;
+  resize: none;
+  min-height: 80px;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.textarea::placeholder {
+  color: #9ca3af;
+}
+
+.charCount {
+  position: absolute;
+  right: 10px;
+  bottom: 6px;
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+/* ==== 사진 미리보기 리스트 ==== */
+.imageContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  overflow-x: auto;
+}
+
+/* 업로드 박스 + 미리보기 아이템이 가로 스크롤에서 고정 너비 유지하도록 */
+.photoUploadBox,
+.photoPreviewItem {
+  flex: 0 0 9rem; /* shrink 안 하고, 기반 너비 9rem */
+  width: 9rem;
+  height: 9rem;
+  border-radius: 16px;
+}
+
+.photoPreviewList {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.photoPreviewItem {
+  position: relative;
+  overflow: hidden;
+}
+
+.photoPreviewImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photoRemoveButton {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 999px;
+  border: none;
+  background: rgba(0, 0, 0, 0.55);
+  color: #ffffff;
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* ==== 사진 첨부 박스 ==== */
+
+.photoUploadBox {
+  border: 1px dashed #e5e7eb;
+  background: #f9fafb;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.photoPreview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 박스를 꽉 채우게 */
+}
+
+.fileInput {
+  display: none;
+}
+
+.uploadIcon {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 6px;
+}
+
+.uploadText {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+/* ==== 푸터 버튼 ==== */
+
+.footer {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.buttonSecondary,
+.buttonPrimary,
+.buttonPrimaryDisabled {
+  flex: 1;
+  height: 44px;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  border: 1px solid transparent;
+}
+
+/* 이전 버튼 */
+.buttonSecondary {
+  background: #ffffff;
+  border-color: #d1d5db;
+  color: #374151;
+}
+
+/* 활성화된 리뷰 등록 버튼 */
+.buttonPrimary {
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+/* 비활성화 리뷰 등록 버튼 */
+.buttonPrimaryDisabled {
+  cursor: not-allowed;
+  background: var(--color-primary);
+  opacity: 0.6;
+  color: #ffffff;
+}
+
+/* ==== 애니메이션 정의 ==== */
+
+@keyframes backdropFadeIn {
+  from {
+    background: rgba(0, 0, 0, 0);
+  }
+  to {
+    background: rgba(0, 0, 0, 0.4);
+  }
+}
+
+@keyframes backdropFadeOut {
+  from {
+    background: rgba(0, 0, 0, 0.4);
+  }
+  to {
+    background: rgba(0, 0, 0, 0);
+  }
+}
+
+@keyframes modalSlideUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes modalSlideDown {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+}

@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import styles from './welfare_reservation.module.css';
 import logo from '@/assets/logo.svg';
+import ReceiptCertModal from './receiptCertModal.jsx';
+import ReviewWriteModal from './reviewWriteModal.jsx';
 
 // API
 import { loadReservation } from '@/api/welfareApi.js';
@@ -36,6 +38,10 @@ export default function WelfareReservation() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const [isReceiptModalOpen, setReceiptModalOpen] = useState(false);
+  const [isReviewModalOpen, setReviewModalOpen] = useState(false);
+  const [receiptImage, setReceiptImage] = useState(null);
+
   useEffect(() => {
     setLoading(true);
 
@@ -65,13 +71,27 @@ export default function WelfareReservation() {
     (a, b) => new Date(b) - new Date(a)
   );
 
-  const handleReviewClick = (item) => {
-    if (item.isReviewed) {
-      console.log('이미 리뷰 작성 완료:', item.storeId);
-      return;
-    }
-    console.log('리뷰 작성으로 이동 예정:', item.storeId);
-    // 예: navigate(`/review/${item.storeId}`);
+  const handleOpenStep1 = () => {
+    setReceiptModalOpen(true);
+  };
+
+  const handleReceiptNext = (file) => {
+    setReceiptImage(file); // 필요하면 저장
+    setReceiptModalOpen(false);
+    setReviewModalOpen(true); // 2단계 오픈
+  };
+
+  const handleReviewPrev = () => {
+    setReviewModalOpen(false);
+    setReceiptModalOpen(true); // 다시 1단계로
+  };
+
+  const handleReviewSubmit = ({ text, photos }) => {
+    console.log('리뷰 내용:', text);
+    console.log('추가 사진:', photos);
+    console.log('영수증 이미지:', receiptImage);
+    setReviewModalOpen(false);
+    // TODO: 서버에 리뷰 등록 API 호출
   };
 
   return (
@@ -117,7 +137,7 @@ export default function WelfareReservation() {
                           <button
                             type="button"
                             className={`${styles.statusButton} ${styles.statusDone}`}
-                            onClick={() => handleReviewClick(item)}
+                            onClick={() => {}}
                           >
                             ✓ 작성 완료
                           </button>
@@ -125,7 +145,7 @@ export default function WelfareReservation() {
                           <button
                             type="button"
                             className={`${styles.statusButton} ${styles.statusTodo}`}
-                            onClick={() => handleReviewClick(item)}
+                            onClick={() => handleOpenStep1()}
                           >
                             리뷰작성
                           </button>
@@ -140,6 +160,19 @@ export default function WelfareReservation() {
           })}
         </div>
       )}
+
+      <ReceiptCertModal
+        open={isReceiptModalOpen}
+        onClose={() => setReceiptModalOpen(false)}
+        onNext={handleReceiptNext}
+      />
+
+      <ReviewWriteModal
+        open={isReviewModalOpen}
+        onClose={() => setReviewModalOpen(false)}
+        onPrev={handleReviewPrev}
+        onSubmit={handleReviewSubmit}
+      />
     </div>
   );
 }
