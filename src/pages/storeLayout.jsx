@@ -11,7 +11,7 @@ import iconAddUnselected from '@/assets/icon_add_unselected.svg';
 export default function StoreLayout() {
   const [activeTab, setActiveTab] = useState('home'); // 홈탭 or 등록탭
 
-    return (
+  return (
     <div className="store-layout">
       {/* 위쪽: 두 개의 페이지(200%) */}
       <div className={`store-pages ${activeTab}`}>
@@ -22,7 +22,7 @@ export default function StoreLayout() {
 
         {/* 오른쪽: 음식 등록 */}
         <div className="store-page">
-          <StoreFoodRegister />
+          <StoreFoodRegister setActiveTab={setActiveTab} />
         </div>
       </div>
 
@@ -46,11 +46,7 @@ export default function StoreLayout() {
           onClick={() => setActiveTab('register')}
         >
           <img
-            src={
-              activeTab === 'register'
-                ? iconAddSelected
-                : iconAddUnselected
-            }
+            src={activeTab === 'register' ? iconAddSelected : iconAddUnselected}
             alt="음식 등록"
           />
           <span className="nav-text">음식 등록</span>
