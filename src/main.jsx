@@ -24,9 +24,9 @@ createRoot(document.getElementById('root')).render(
         <Route path="/:type/login" element={<LoginLayout />} />
         <Route path="/login" element={<Navigate to="/store/login" replace />} />
         <Route path="/:type/signup" element={<SignupLayout />} />
-        <Route path="/store/home" element={<StoreLayout />} />
+        <Route path="/store" element={<StoreLayout />} />
 
-        <Route path="/o" element={<WelfareLayout />} />
+        <Route path="/welfare" element={<WelfareLayout />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>

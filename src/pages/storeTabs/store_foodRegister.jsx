@@ -16,7 +16,7 @@ function createEmptyItem() {
   };
 }
 
-export default function StoreFoodRegister() {
+export default function StoreFoodRegister({ setActiveTab }) {
   const [items, setItems] = useState([createEmptyItem()]);
   const [submitting, setSubmitting] = useState(false);
 
@@ -50,6 +50,7 @@ export default function StoreFoodRegister() {
 
       alert('음식이 등록되었습니다.');
       setItems([createEmptyItem()]); //등록 후 초기화
+      setActiveTab('home');
     } catch (err) {
       console.error(err);
       alert(err.message || '등록에 실패했습니다.');
