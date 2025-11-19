@@ -47,10 +47,10 @@ export default function LoginPage() {
       console.log('로그인 성공', data);
       //throw new Error('아이디 또는 비밀번호가 일치하지 않습니다.');
       //role에 따라 페이지 분기
-      if (data.role === 'MARKET') {
-        navigate('/store'); // 가게 홈
-      } else if (data.role === 'CENTER') {
-        navigate('/welfare'); // 복지시설 홈
+      if (role === 'MARKET') {
+        navigate('/store/home'); // 가게 홈
+      } else if (role === 'CENTER') {
+        navigate('/welfare/home'); // 복지시설 홈
       } else {
         navigate('/');
       }
