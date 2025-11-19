@@ -1,0 +1,89 @@
+/* ========== 전체 레이아웃 컨테이너 ========== */
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* ========== 상단 컨텐츠 슬라이더 ========== */
+.pages {
+  flex: 1;
+  display: flex;
+  width: 200%;
+  transition: transform 0.3s ease;
+}
+
+.pages--reserve {
+  transform: translateX(0);
+}
+
+.pages--home {
+  transform: translateX(-50%);
+}
+
+.page {
+  width: 50%;
+  flex-shrink: 0;
+}
+
+/* ========== 하단 네비게이션 바 ========== */
+.nav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 5.5rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid #eee;
+  background: #ffffff;
+}
+
+/* 네비게이션 버튼 */
+.navItem {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border: none;
+  background: transparent;
+  color: #9ca3af;
+  flex: 1;
+  justify-content: center;
+}
+
+.navItem img {
+  height: 1.3rem;
+}
+
+.navItem--active {
+  color: var(--color-primary);
+}
+
+.navText {
+  margin-bottom: 4px;
+  font-size: 1.1rem;
+}
+
+/* ========== 상단 오렌지 인디케이터 ========== */
+.indicator {
+  position: absolute;
+  top: 0;
+  height: 6px;
+  width: 15%;
+  background: var(--color-primary);
+  border-radius: 999px;
+  transition: transform 0.3s ease;
+}
+
+.indicator--reserve {
+  transform: translateX(-165%);
+}
+
+.indicator--home {
+  transform: translateX(165%);
+}
