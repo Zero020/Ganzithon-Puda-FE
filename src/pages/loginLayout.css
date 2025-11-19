@@ -1,0 +1,67 @@
+body{
+    overflow-y: auto;
+}
+
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 500px;
+    min-width: 393px;
+    margin: 0 auto;
+    padding: 2.8rem;
+}
+
+/* 헤더 뒤로가기 버튼*/
+.back-button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    align-self: flex-start;
+    padding: 4px;
+    margin-bottom: 4rem;
+}
+.back-button img{
+    width: 0.6rem;
+}
+
+/* 로고 영역 */
+.login-logo-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+    height: 3.4rem;
+}
+
+.login-logo-area img{
+    height: 100%;
+}
+
+/* 로그인 하단(회원가입 등) */
+.login-footer {
+    margin-top: 0.75rem;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+.signup-link {
+    border: none;
+    background: transparent;
+    color: var(--color-primary, #c67c4e);
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+}
+
+@media (min-width: 1024px) {
+    .login-container {
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+}

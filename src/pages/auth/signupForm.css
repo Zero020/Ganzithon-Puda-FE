@@ -1,0 +1,74 @@
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.textarea-wrapper {
+  display: flex;
+  background: var(--color-secondary);
+  border-radius: 0.9rem;
+  padding: 1rem;
+  border: 0.821px solid #E7E5E4;
+  height: 80px;
+  align-items: center;
+}
+
+.textarea-wrapper:focus-within {
+  background: #fff;
+  border: 1.5px solid var(--color-primary);
+}
+
+.input-name {
+  height: 20px;
+  width: 100%;
+  margin-bottom: 3px;
+  margin-top: 0;
+  padding-left: 5px;
+  color: #364153;
+  font-weight: 400;
+  font-size: 0.825rem;
+}
+
+.signup-input,
+.signup-textarea {
+  border: none;
+  outline: none;
+  background: transparent;
+  flex: 1;
+  font-size: 0.875rem;
+  font-weight: 400;
+  font-family: sans-serif;
+}
+
+.signup-textarea {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.signup-input::placeholder,
+.signup-textarea::placeholder {
+  color: #A2A2A2;
+}
+
+/* 버튼 */
+.signup-button {
+  margin-top: 10px;
+  width: 100%;
+  border: none;
+  border-radius: 1rem;
+  padding: 12px 0;
+  height: 55px;
+  font-size: 1rem;
+  font-weight: 400;
+  cursor: pointer;
+  background: linear-gradient(90deg, #C97846 0%, #F1BB86 100%);
+  color: #ffffff;
+  box-shadow: 0 6px 12px rgba(198, 124, 78, 0.3);
+  transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.2s ease;
+}
+
+.signup-button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}

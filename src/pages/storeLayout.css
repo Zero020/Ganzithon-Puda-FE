@@ -1,0 +1,95 @@
+body {
+    overflow: hidden;
+}
+
+.store-layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.store-pages {
+    flex: 1;
+    display: flex;
+    width: 200%;
+    transition: transform 0.3s ease;
+}
+
+/*좌*/
+.store-pages.home {
+    transform: translateX(0);
+}
+
+/*우*/
+.store-pages.register {
+    transform: translateX(-50%);
+}
+
+.store-page {
+    width: 50%;
+    flex-shrink: 0;
+  
+    margin-top: 0;
+}
+
+/* 하단 네비 바*/
+.store-nav {
+    position: absolute;
+    cursor: pointer;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 5.5rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid #eee;
+    background: #ffffff;
+}
+
+.nav-item {
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border: none;
+    background: transparent;
+    color: #9ca3af;
+    flex: 1;
+    justify-content: center;
+}
+
+.nav-item img {
+    height: 1.3rem;
+}
+
+.nav-item.active {
+    color: var(--color-primary);
+}
+
+.nav-text {
+    margin-bottom: 4px;
+    font-size: 1.1rem;
+}
+
+/* 인디케이터 */
+.nav-indicator {
+    position: absolute;
+    top: 0;
+    height: 6px;
+    width: 15%;
+    background: var(--color-primary);
+    border-radius: 999px;
+    transition: transform 0.3s ease;
+}
+
+.nav-indicator.home {
+    transform: translateX(-165%);
+}
+
+.nav-indicator.register {
+    transform: translateX(165%);
+}

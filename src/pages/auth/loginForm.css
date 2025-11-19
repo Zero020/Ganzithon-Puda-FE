@@ -1,0 +1,111 @@
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    margin-top: 8px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    gap: 8px;
+    padding: 0 1rem;
+    background: var(--color-secondary);
+    border-radius: 0.9rem;
+    height: 3rem;
+    width: 100%;
+    border: 0.821px solid #E7E5E4;
+}
+
+.input-wrapper:focus-within {
+    background: #fff;
+    border: 1.5px solid var(--color-primary);
+}
+
+/* 인풋 왼쪽의 작은 아이콘 */
+.input-icon {
+    width: 1.1rem;
+    height: 1.1rem;
+    opacity: 0.8;
+}
+
+.login-input {
+    border: none;
+    outline: none;
+    background: transparent;
+    flex: 1;
+    font-size: 0.875rem;
+    font-weight: 400;
+}
+
+.login-input::placeholder {
+    color: #A2A2A2;
+}
+/* 에러 테두리 */
+.input-error {
+  border: 1.5px solid #ef4444;
+  background-color: #fff5f5;
+}
+
+/* 에러 텍스트 */
+.login-error-text {
+    position: absolute;
+    top: 27rem;
+  color: #ef4444;
+  font-size: 0.85rem;
+  margin: 4px 0 8px 4px;
+}
+.login-error-text span{
+    margin-left: 1.3rem;
+}
+.warningIcon{
+    width: 1rem;
+    height: 1rem;
+    vertical-align: sub;
+    margin-right: 5px;
+}
+/* 로그인 버튼 */
+.login-button {
+    margin-top: 109px;
+    width: 100%;
+    border: none;
+    border-radius: 1rem;
+    padding: 12px 0;
+    height: 55px;
+    font-size: 1rem;
+    font-weight: 400;
+    cursor: pointer;
+
+    background: linear-gradient(90deg, #C97846 0%, #F1BB86 100%);
+    color: #ffffff;
+    box-shadow: 0 6px 12px rgba(198, 124, 78, 0.3);
+    transition: transform 0.1s ease, box-shadow 0.1s ease, opacity 0.2s ease;
+}
+
+/* 호버 시 살짝 눌리는 느낌 */
+.login-button:hover:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: 0 4px 10px rgba(198, 124, 78, 0.25);
+}
+
+/* disabled 상태 (입력값 없을 때 등) */
+.login-button:disabled {
+    cursor: not-allowed;
+    box-shadow: none;
+    color: #A2A2A2;
+    background: var(--color-secondary);
+}
+
+/* PC에서 폰트 조금 키우고 여유 추가 */
+@media (min-width: 768px) {
+    .login-input {
+        font-size: 1rem;
+    }
+
+    .login-button {
+        font-size: 1.05rem;
+    }
+}

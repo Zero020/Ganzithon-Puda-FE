@@ -1,0 +1,58 @@
+body{
+    overflow-y: auto;
+}
+
+.signup-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 500px;
+  min-width: 393px;
+  margin: 0 auto;
+  padding: 2.8rem;
+}
+
+/* 상단 헤더 (뒤로가기 버튼) */
+.header {
+  height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+/* 로고 영역 */
+.signup-logo-area {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  height: 3.4rem;
+}
+
+.signup-logo {
+  height: 3.4rem;  
+}
+
+/* 에러 문구 / 성공 문구 */
+.signup-error-text {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: #ef4444;
+  text-align: center;
+}
+
+.signup-success-text {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: #16a34a;
+  text-align: center;
+}
+
+/* PC에서 살짝 여유 */
+@media (min-width: 1024px) {
+  .signup-container {
+    max-width: 480px;
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+}

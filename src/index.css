@@ -4,6 +4,8 @@
   --color-gray: #757981;
   --color-light-gray: #99a1af;
   --color-background: #ffffff; /* 부드러운 배경 */
+  --color-secondary: #F3F4F6; /*연한 회색*/
+  --sub-text-color:#717182; /*진한 회색 */
   --font-main: 'Arimo', sans-serif; /* 기본 폰트 */
 }
 
