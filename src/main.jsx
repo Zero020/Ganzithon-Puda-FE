@@ -8,6 +8,7 @@ import LoginLayout from './pages/loginLayout.jsx';
 import SignupLayout from './pages/signupLayout.jsx';
 //import Store from './pages/storeTabs/store_home.jsx';
 import StoreLayout from './pages/storeLayout.jsx';
+import WelfareProductDetail from './pages/welfareProductDetail.jsx'; //복지시설용 가게 상세페이지
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -26,6 +27,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/store/home" element={<StoreLayout />} />
 
         <Route path="/welfare/home" element={<WelfareLayout />} />
+        <Route path="/welfare/detail/:productId" element={<WelfareProductDetail />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>

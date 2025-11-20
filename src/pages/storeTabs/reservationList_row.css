@@ -75,3 +75,6 @@
     background: rgba(201, 111, 0, 0.10);
     color: var(--color-primary);
 }
+.icon-search{
+    margin-right: 5px;
+}

@@ -8,8 +8,7 @@ body{
   flex-direction: column;
   box-sizing: border-box;
   width: 100%;
-  max-width: 500px;
-  min-width: 393px;
+  max-width: 600px;
   margin: 0 auto;
   padding: 2.8rem;
 }
@@ -46,13 +45,4 @@ body{
   font-size: 0.85rem;
   color: #16a34a;
   text-align: center;
-}
-
-/* PC에서 살짝 여유 */
-@media (min-width: 1024px) {
-  .signup-container {
-    max-width: 480px;
-    padding-top: 48px;
-    padding-bottom: 48px;
-  }
 }

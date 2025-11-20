@@ -1,0 +1,217 @@
+.detailPage {
+  max-width: 800px;
+  min-width: 393px;
+  overflow-y: auto;
+  margin: 0 auto;
+  background: #fff;
+  height: 100vh;
+}
+
+/* 상단 헤더 */
+.header {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 0;
+  background-color: #ffffff;
+}
+
+.backButton {
+  border: none;
+  background: transparent;
+  padding: 0;
+  padding-left: 1.25rem;
+  margin-right: 0.75rem;
+  cursor: pointer;
+  width: 1.25rem;
+}
+
+.backButton img {
+  width: 20px;
+  height: 20px;
+}
+
+.headerText {
+  display: flex;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding-right: 1.25rem;
+}
+
+.storeName {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.storeAddress {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+/* 대표 이미지 */
+.mainImageWrapper {
+  width: 100%;
+  padding: 0 1.5rem;
+  padding-top: 0.5rem;
+  background: #fff;
+}
+
+.mainImage {
+  width: 100%;
+  border-radius: 1rem;
+  object-fit: cover;
+}
+
+/* 음식 정보 섹션 */
+.foodInfoSection {
+  padding: 1rem 1.5rem 0.75rem;
+  background-color: #ffffff;
+}
+
+.foodInfoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.foodName {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: var(--color-primary-dark);
+}
+
+.foodDescription {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.remainingCount {
+  font-size: 0.85em;
+  font-weight: 500;
+
+}
+
+.foodDeadlineRow {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+}
+
+.deadlineLabel {
+  color: #6b7280;
+}
+
+.deadlineValue {
+  font-weight: 400;
+  color: #6b7280;
+}
+
+/* 리뷰 섹션 */
+.reviewSection {
+  padding-top: 1rem;
+  padding: 1rem 1.5rem;
+  background-color: #ffffff;
+  margin-top: 0.3rem;
+  padding-bottom: 2rem;
+  border-top: 18px solid #2d2d2d06;
+}
+
+.reviewHeaderRow {
+  margin-bottom: 0.8rem;
+}
+
+.reviewTitleMain {
+  font-weight: 700;
+  font-size: 1.1em;
+}
+
+.reviewList {
+  display: flex;
+  flex-direction: row;
+  gap: 0.7rem;
+}
+
+.reviewItem {
+  display: flex;
+  width: 20rem;
+  height: auto;
+  overflow-x: auto;
+  flex-direction: row;
+  gap: 0.2rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(195, 192, 192, 0.12), 0 1px 2px rgba(126, 125, 125, 0.24);
+  justify-content: space-between
+}
+
+.reviewHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-right: 0.2rem;
+}
+
+.reviewTitle {
+  font-size: 0.8rem;
+  color: #4b5563;
+  font-weight: 800;
+}
+
+.reviewCenterName {
+  font-weight: 600;
+}
+
+.reviewDivider {
+  margin: 0 0.25rem;
+
+}
+
+.reviewProductName {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-primary-dark);
+
+}
+
+.reviewDate {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin-bottom:0.2rem;
+}
+
+.reviewContent {
+  font-size: 0.8rem;
+  color: #374151;
+  line-height: 1.4;
+}
+
+.reviewEmpty {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.reviewBody {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  justify-content: space-between
+}
+
+.reviewImageBox {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.reviewImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

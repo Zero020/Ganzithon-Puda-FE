@@ -1,13 +1,17 @@
 // src/components/PostCard/PostCard.jsx
 import { useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 import styles from './postCard.module.css';
 import deadlineIcon from '@/assets/icon_deadline.svg';
 import quantityIcon from '@/assets/icon_quantity.svg';
 import defaultFoodImage from '@/assets/default_food_image.png';
 
 export default function PostCard({ post }) {
+  const navigate = useNavigate();
+
   const {
+    postId,
+    productId,
     foodName,
     quantity,
     deadline,
@@ -16,6 +20,8 @@ export default function PostCard({ post }) {
     foodImgs,
     isReserved,
   } = post;
+
+  const effectiveProductId = productId ?? postId;
 
   // D-DAY 계산
   let dDayLabel = '';
@@ -46,8 +52,12 @@ export default function PostCard({ post }) {
 
   const [imageUrl, setImageUrl] = useState(foodImgs?.[0] ?? defaultFoodImage);
 
+  const handleClickCard = () => {
+    navigate(`/welfare/detail/${effectiveProductId}`);
+  };
+
   return (
-    <div className={styles.postCard}>
+    <div className={styles.postCard} onClick={handleClickCard}>
       <div className={styles.imageWrap}>
         <img
           src={imageUrl}

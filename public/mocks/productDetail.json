@@ -1,0 +1,29 @@
+[
+  {
+    "productId": 1,
+    "marketId": 1,
+    "marketName": "행복베이커리",
+    "marketAddress": "서울특별시 종로구 세종대로 175",
+    "productDescription": "오늘 하루 파기 직전 할인 상품입니다.",
+    "productName": "찹쌀발효 식빵",
+    "imageUrl": "https://images.pexels.com/photos/263168/pexels-photo-263168.jpeg",
+    "count": 155,
+    "endTime": "2025-11-15",
+    "reviews": [
+      {
+        "content": "아이들이 너무 맛있게 잘 먹었습니다! 😊",
+        "createdAt": "2025-11-11 10:00",
+        "marketReviewCount": 10,
+        "centerName": "행복의집",
+        "productName": "찹쌀발효 식빵"
+      },
+      {
+        "content": "방금 만든 것처럼 향이 좋아서 아이들도 직원들도 정말 기분 좋게 나눠 먹었어요.",
+        "createdAt": "2025-11-11 11:35",
+        "marketReviewCount": 10,
+        "centerName": "사랑의집",
+        "productName": "크로크무슈"
+      }
+    ]
+  }
+]
