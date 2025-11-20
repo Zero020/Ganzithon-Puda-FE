@@ -74,7 +74,7 @@ export default function WelfareHome() {
       {/* 게시글 리스트 */}
       <div className={styles.postList}>
         {posts.map((post) => (
-          <PostCard key={post.uuid} post={post} />
+          <PostCard key={post.postId} post={post} />
         ))}
       </div>
     </div>

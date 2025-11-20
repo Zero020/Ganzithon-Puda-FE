@@ -8,13 +8,9 @@ import defaultFoodImage from '@/assets/default_food_image.png';
 
 export default function PostCard({ post }) {
   const {
-    uuid,
     foodName,
     quantity,
     deadline,
-    storeId,
-    lat,
-    lng,
     address,
     addressDetail,
     foodImgs,

@@ -20,7 +20,7 @@ export async function fetchPosts(sortType) {
 
 export async function loadReservation() {
   if (USE_MOCK || !BASE_URL) {
-    // 🔹 개발 중: 더미 JSON 사용
+    // 개발 중: 더미 JSON 사용
     const res = await fetch('../mocks/reservation.json');
     if (!res.ok) throw new Error('mock 데이터 불러오기 실패');
     const data = await res.json();
@@ -33,4 +33,23 @@ export async function loadReservation() {
   if (!res.ok) throw new Error('API 요청 실패');
   const data = await res.json();
   return data;
+}
+
+export async function loadReview(marketId) {
+  let data;
+  if (USE_MOCK || !BASE_URL) {
+    // 개발 중: 더미 JSON 사용
+    const res = await fetch('../mocks/review.json');
+    if (!res.ok) throw new Error('mock 데이터 불러오기 실패');
+    data = await res.json();
+  }
+
+  // 🔹 나중에 실제 백엔드 붙일 때 여기만 고치면 됨
+  const res = await fetch(`${BASE_URL}/review`);
+  if (!res.ok) throw new Error('API 요청 실패');
+  data = await res.json();
+
+  // marketId에 해당하는 리뷰만 필터링
+  const item = data.find((r) => r.marketId === marketId);
+  return item;
 }

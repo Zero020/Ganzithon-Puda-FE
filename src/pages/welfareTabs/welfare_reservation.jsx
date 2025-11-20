@@ -126,8 +126,8 @@ export default function WelfareReservation() {
 
                 {/* 해당 날짜의 예약들 */}
                 {section.items.map((item) => (
-                  <div>
-                    <div key={item.storeId} className={styles.row}>
+                  <div key={item.marketId}>
+                    <div className={styles.row}>
                       <div className={styles.cellStore}>{item.storeName}</div>
                       <div className={styles.cellDeadline}>
                         {formatExpirationDate(item.expirationDate)}
