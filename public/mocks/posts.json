@@ -1,6 +1,6 @@
 [
   {
-    "postId": "1111-1111",
+    "postId": 1,
     "foodName": "샌드위치 세트",
     "quantity": 155,
     "deadline": "2025-12-31T13:10:00Z",

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import styles from './welfare_home.module.css';
 
 import logo from '@/assets/logo.svg';
@@ -21,6 +21,7 @@ export default function WelfareHome() {
   const [sortType, setSortType] = useState('default');
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     setLoading(true);
@@ -32,6 +33,25 @@ export default function WelfareHome() {
       .catch((err) => console.error(err))
       .finally(() => setLoading(false));
   }, [sortType]);
+
+  // 검색어 + 정렬 결과 기반으로 필터링
+  const filteredPosts = useMemo(() => {
+    if (!search.trim()) return posts;
+
+    const keyword = search.trim().toLowerCase();
+
+    return posts.filter((post) => {
+      const targetText = (
+        post.foodName
+       ||
+        ''
+      ).toLowerCase();
+
+      return targetText.includes(keyword);
+    });
+  }, [search, posts]);
+
+  const hasNoResult = !loading && filteredPosts.length === 0;
 
   return (
     <div className={styles.welfareContainer}>
@@ -48,6 +68,8 @@ export default function WelfareHome() {
             className={styles.searchInput}
             type="text"
             placeholder="가게를 검색해보세요."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
         </label>
       </div>
@@ -71,9 +93,14 @@ export default function WelfareHome() {
       {/* 로딩 */}
       {loading && <p>불러오는 중...</p>}
 
+      {/* 검색 결과 없음 */}
+      {hasNoResult && !loading && (
+        <p>검색 결과가 없습니다.</p>
+      )}
+
       {/* 게시글 리스트 */}
       <div className={styles.postList}>
-        {posts.map((post) => (
+        {filteredPosts.map((post) => (
           <PostCard key={post.postId} post={post} />
         ))}
       </div>

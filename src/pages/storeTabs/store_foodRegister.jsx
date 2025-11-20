@@ -62,8 +62,8 @@ export default function StoreFoodRegister({ setActiveTab }) {
   return (
     <form className="food-register" onSubmit={handleSubmitAll}>
       <header className="food-register-header">
-        <h1 className="store-name">행복베이커리</h1>
-        <p className="store-address">서울특별시 종로구 세종대로 175</p>
+        <h1 className="store-name">오늘의 남은 한 조각, </h1>
+        <p className="store-name">누군가의 따뜻한 한 끼가 됩니다.</p>
       </header>
 
       {/* 품목 리스트 – 세로 스크롤 */}
