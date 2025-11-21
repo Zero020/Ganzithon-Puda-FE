@@ -36,7 +36,6 @@
   display: flex;
   align-items: center;
   width: 100%;
-  padding-right: 1.25rem;
 }
 
 .storeName {
@@ -132,13 +131,13 @@
 
 .reviewList {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 0.7rem;
 }
 
 .reviewItem {
   display: flex;
-  width: 20rem;
+  width: 100%;
   height: auto;
   overflow-x: auto;
   flex-direction: row;
@@ -202,12 +201,11 @@
   justify-content: space-between
 }
 
-.reviewImageBox {
-  width: 5rem;
-  height: 5rem;
-  border-radius: 10px;
+.reviewImageWrapper {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 8px;
   overflow: hidden;
-  flex-shrink: 0;
 }
 
 .reviewImage {
