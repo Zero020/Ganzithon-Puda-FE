@@ -29,7 +29,7 @@ export async function loadReservation() {
   }
 
   // 🔹 나중에 실제 백엔드 붙일 때 여기만 고치면 됨
-  const res = await fetch(`${BASE_URL}/reservation`);
+  const res = await fetch(`${BASE_URL}/api/center/reservations/read/1`);
   if (!res.ok) throw new Error('API 요청 실패');
   const data = await res.json();
   return data;
