@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import styles from './welfare_reservation.module.css';
-import logo from '@/assets/logo.svg';
+import logo from '@/assets/logo3.svg';
 import ReceiptCertModal from './receiptCertModal.jsx';
 import ReviewWriteModal from './reviewWriteModal.jsx';
 
@@ -42,6 +42,20 @@ export default function WelfareReservation() {
   const [isReviewModalOpen, setReviewModalOpen] = useState(false);
   const [receiptImage, setReceiptImage] = useState(null);
 
+  // 상단에 표시할 현재 연/월
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth() + 1;
+
+  // 선택된 연/월 (필터용) – 초기값: 이번 달
+  const [yearMonthFilter, setYearMonthFilter] = useState({
+    year: currentYear,
+    month: currentMonth,
+  });
+
+  // 드롭다운 열림 여부
+  const [isMonthOpen, setIsMonthOpen] = useState(false);
+
   useEffect(() => {
     setLoading(true);
 
@@ -53,8 +67,44 @@ export default function WelfareReservation() {
       .finally(() => setLoading(false));
   }, []);
 
+  //예약 데이터에서 실제로 존재하는 연/월 목록 뽑기 (드롭다운용)
+  const availableMonths = useMemo(() => {
+    const map = new Map();
+
+    posts.forEach((item) => {
+      const d = new Date(item.reservedAt);
+      if (Number.isNaN(d.getTime())) return;
+      const y = d.getFullYear();
+      const m = d.getMonth() + 1;
+      const key = `${y}-${String(m).padStart(2, '0')}`;
+      if (!map.has(key)) {
+        map.set(key, { year: y, month: m });
+      }
+    });
+
+    // 최신 달이 위로 오도록 정렬
+    return Array.from(map.values()).sort((a, b) => {
+      if (a.year !== b.year) return b.year - a.year;
+      return b.month - a.month;
+    });
+  }, [posts]);
+
+  // 선택된 연/월 기준으로 posts 필터링
+  const filteredPosts = useMemo(() => {
+    const { year, month } = yearMonthFilter;
+
+    return posts.filter((item) => {
+      const d = new Date(item.reservedAt);
+      if (Number.isNaN(d.getTime())) return false;
+      return (
+        d.getFullYear() === year &&
+        d.getMonth() + 1 === month
+      );
+    });
+  }, [posts, yearMonthFilter]);
+
   // 날짜별 그룹화 (reservedAt 기준)
-  const grouped = posts.reduce((acc, item) => {
+  const grouped = filteredPosts.reduce((acc, item) => {
     const key = getDateKey(item.reservedAt);
     if (!acc[key]) {
       acc[key] = {
@@ -94,12 +144,53 @@ export default function WelfareReservation() {
     // TODO: 서버에 리뷰 등록 API 호출
   };
 
+  // 🔹 월 선택 시
+  const handleSelectMonth = (ym) => {
+    setYearMonthFilter(ym);
+    setIsMonthOpen(false);
+  };
+
+  const hasNoData = !loading && filteredPosts.length === 0;
+
   return (
     <div className={styles.welfareReservationContainer}>
       {/* 상단 헤더 */}
       <div className={styles.topHeader}>
         <img src={logo} alt="Logo" className={styles.logo} />
-        <div className={styles.topHeaderText}>예약 현황</div>
+      </div>
+      {/* <div className={styles.topHeaderText}>예약 현황</div> */}
+
+      {/* 연/월 표시 + 드롭다운 */}
+      <div className={styles.monthWrapper}>
+        <button
+          type="button"
+          className={styles.monthHeader}
+          onClick={() => setIsMonthOpen((prev) => !prev)}
+        >
+          <span>
+            {yearMonthFilter.year}년 {yearMonthFilter.month}월
+          </span>
+          <span className={styles.monthArrow}>▼</span>
+        </button>
+
+        {isMonthOpen && (
+          <div className={styles.monthDropdown}>
+            {availableMonths.length === 0 && (
+              <div className={styles.monthEmpty}>표시할 달이 없습니다.</div>
+            )}
+
+            {availableMonths.map((ym) => (
+              <button
+                key={`${ym.year}-${ym.month}`}
+                type="button"
+                className={styles.monthOption}
+                onClick={() => handleSelectMonth(ym)}
+              >
+                {ym.year}년 {ym.month}월
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* 컬럼 헤더 */}
@@ -113,7 +204,7 @@ export default function WelfareReservation() {
       {/* 로딩 / 빈 상태 / 리스트 */}
       {loading ? (
         <div className={styles.loading}>로딩 중...</div>
-      ) : posts.length === 0 ? (
+      ) : hasNoData ? (
         <div className={styles.empty}>예약 내역이 없습니다.</div>
       ) : (
         <div className={styles.reservationList}>

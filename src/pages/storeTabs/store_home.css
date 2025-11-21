@@ -29,6 +29,64 @@
     height: 100%;
 }
 
+/* 월 선택 영역 전체를 감싸는 래퍼 */
+.home-month-wrapper {
+  position: relative;
+  margin: 0.75rem 1.5rem 1rem 0;
+}
+
+/* "2023년 7월 ▼" 버튼 */
+.home-month-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  padding: 0;
+}
+
+.home-month-arrow {
+  font-size: 0.7rem;
+  margin-top: 2px;
+}
+
+/* 드롭다운 박스 */
+.home-month-dropdown {
+  position: absolute;
+  margin-top: 0.4rem;
+  padding: 0.4rem 0;
+  background: #ffffff;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  min-width: 120px;
+  z-index: 10;
+}
+
+/* 드롭다운 안 옵션 버튼들 */
+.home-month-option {
+  width: 100%;
+  padding: 0.35rem 0.8rem;
+  border: none;
+  background: transparent;
+  text-align: left;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.home-month-option:hover {
+  background: #f3f4f6;
+}
+
+.home-month-empty {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
 .home-content {
     flex: 1;
     width: 100%;
