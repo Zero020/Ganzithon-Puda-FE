@@ -2,8 +2,12 @@ import { useEffect, useState, useMemo } from 'react';
 import { fetchStoreData } from '@/api/storeApi';
 import './store_home.css';
 import logo from '@/assets/logo3.svg';
+import icon_logout from '@/assets/icon_logout.svg';
+
 import SearchBar from './searchBar.jsx';
 import ReservationList from './reservationList.jsx';
+import { logout } from '../auth/auth.jsx';
+import { useNavigate } from 'react-router-dom';
 
 // "2025-11-20T19:13:50" -> "2025-11-20"
 function getDateKey(dateString) {
@@ -27,6 +31,9 @@ export default function StoreHome() {
   const [reservations, setReservations] = useState([]); // 평평한 배열
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState(''); // 검색어
+
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const navigate = useNavigate();
 
   // 현재 연/월
   const now = new Date();
@@ -55,8 +62,7 @@ export default function StoreHome() {
 
       // reservationTime 기준으로 최신순 정렬
       const sorted = [...data].sort(
-        (a, b) =>
-          new Date(b.reservationTime) - new Date(a.reservationTime),
+        (a, b) => new Date(b.reservationTime) - new Date(a.reservationTime)
       );
       setReservations(sorted);
       setLoading(false);
@@ -82,7 +88,7 @@ export default function StoreHome() {
 
     // 날짜 내림차순 정렬
     const sortedKeys = Object.keys(grouped).sort(
-      (a, b) => new Date(b) - new Date(a),
+      (a, b) => new Date(b) - new Date(a)
     );
 
     return sortedKeys.map((key) => grouped[key]);
@@ -120,10 +126,7 @@ export default function StoreHome() {
     const byMonth = sections.filter((section) => {
       const d = new Date(section.date);
       if (Number.isNaN(d.getTime())) return false;
-      return (
-        d.getFullYear() === year &&
-        d.getMonth() + 1 === month
-      );
+      return d.getFullYear() === year && d.getMonth() + 1 === month;
     });
 
     // 2) 검색어 없으면 여기까지
@@ -134,7 +137,7 @@ export default function StoreHome() {
       .map((section) => ({
         ...section,
         reservations: section.reservations.filter((r) =>
-          (r.centerName || '').toLowerCase().includes(keyword),
+          (r.centerName || '').toLowerCase().includes(keyword)
         ),
       }))
       .filter((section) => section.reservations.length > 0);
@@ -155,13 +158,21 @@ export default function StoreHome() {
           <img src={logo} alt="Logo" className="logo" />
         </div>
 
-        <div className="header-searchBar">
-          <SearchBar
-            value={search}
-            onChange={setSearch}
-            placeholder="시설명을 검색해보세요."
+        <div className="header-logout">
+          <img
+            src={icon_logout}
+            alt="logout"
+            className="logout"
+            onClick={() => setShowLogoutModal(true)} //모달 열기
           />
         </div>
+      </div>
+      <div className="searchBar">
+        <SearchBar
+          value={search}
+          onChange={setSearch}
+          placeholder="시설명을 검색해보세요."
+        />
       </div>
 
       {/* 월 표시 + 드롭다운 */}
@@ -214,6 +225,35 @@ export default function StoreHome() {
           <ReservationList sections={filteredSections} />
         )}
       </div>
+
+      {/* 로그아웃 확인 모달 */}
+      {showLogoutModal && (
+        <div className="logout-modal-backdrop">
+          <div className="logout-modal">
+            <p className="logout-modal-message">로그아웃 하시겠습니까?</p>
+            <div className="logout-modal-buttons">
+              <button
+                type="button"
+                className="logout-modal-btn cancel"
+                onClick={() => setShowLogoutModal(false)}
+              >
+                취소
+              </button>
+              <button
+                type="button"
+                className="logout-modal-btn confirm"
+                onClick={() => {
+                  logout(); // 로그인 정보 삭제
+                  setShowLogoutModal(false);
+                  navigate('/login'); // 로그인 페이지로 이동
+                }}
+              >
+                로그아웃
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

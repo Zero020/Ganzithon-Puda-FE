@@ -17,8 +17,10 @@
 .logoBox {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
+  padding-right: 0.5rem;
 }
 
 .logo {
@@ -99,4 +101,74 @@
 
   padding: 0 0 6.5rem;
   box-sizing: border-box;
+}
+
+/* 로그아웃 아이콘 위치 */
+.headerLogout {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.logoutIcon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+/* 모달 전체 배경 */
+.logoutModalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 50%;  /* 화면 절반에서 시작 */
+  width: 50%; /* 오른쪽 절반만 덮기 */
+  height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.4);
+  z-index: 9999;
+}
+
+
+/* 모달 박스 */
+.logoutModal {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px 24px;
+  max-width: 280px;
+  width: 80%;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.logoutModalMessage {
+  font-size: 14px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+/* 버튼 영역 */
+.logoutModalButtons {
+  display: flex;
+  gap: 8px;
+}
+
+.logoutModalBtn {
+  flex: 1;
+  padding: 8px 0;
+  border-radius: 999px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* 취소 / 확인 구분 */
+.logoutCancel {
+  background: #f3f3f3;
+}
+
+.logoutConfirm {
+  background: #c67c4e;
+  color: #fff;
 }
