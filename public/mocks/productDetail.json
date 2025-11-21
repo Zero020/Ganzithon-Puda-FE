@@ -15,14 +15,16 @@
         "createdAt": "2025-11-11 10:00",
         "marketReviewCount": 10,
         "centerName": "행복의집",
-        "productName": "찹쌀발효 식빵"
+        "productName": "찹쌀발효 식빵",
+        "imageUrl": "https://images.pexels.com/photos/263168/pexels-photo-263168.jpeg"
       },
       {
         "content": "방금 만든 것처럼 향이 좋아서 아이들도 직원들도 정말 기분 좋게 나눠 먹었어요.",
         "createdAt": "2025-11-11 11:35",
         "marketReviewCount": 10,
         "centerName": "사랑의집",
-        "productName": "크로크무슈"
+        "productName": "크로크무슈",
+        "imageUrl": "https://images.pexels.com/photos/263168/pexels-photo-263168.jpeg"
       }
     ]
   }
