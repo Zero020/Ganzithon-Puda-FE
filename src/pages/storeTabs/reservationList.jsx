@@ -22,13 +22,18 @@ function formatDateLabel(dateStr) {
 export default function ReservationList({ sections }) {
   return (
     <div className="store-reservation-list">
-      {sections.map((section) => (
-        <section key={section.date} className="store-date-section">
-          <h2 className="store-date-label">{formatDateLabel(section.date)}</h2>
+      {sections.map((section, sectionIdx) => (
+        <section
+          key={`${section.date}-${sectionIdx}`}
+          className="store-date-section"
+        >
+          <h2 className="store-date-label">
+            {formatDateLabel(section.date)}
+          </h2>
 
-          {section.reservations.map((reservation) => (
+          {section.reservations.map((reservation, idx) => (
             <ReservationRow
-              key={reservation.reservationId}
+              key={`${section.date}-${sectionIdx}-${idx}`}
               reservation={reservation}
             />
           ))}
@@ -37,3 +42,4 @@ export default function ReservationList({ sections }) {
     </div>
   );
 }
+
