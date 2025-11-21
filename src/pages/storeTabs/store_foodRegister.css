@@ -40,6 +40,7 @@
 .food-items-scroll {
     width: 100%;
     display: flex;
+    flex-direction: column;
 }
 
 .food-item,

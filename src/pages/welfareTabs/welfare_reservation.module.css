@@ -89,6 +89,11 @@
 .statusTodo {
   background: var(--color-primary);
   color: #ffffff;
+  cursor: pointer;
+}
+.statusTodo:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
 /* 작성 완료 버튼 (연한 베이지 + 테두리) */

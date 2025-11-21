@@ -5,9 +5,26 @@ import logo from '@/assets/logo3.svg';
 import SearchBar from './searchBar.jsx';
 import ReservationList from './reservationList.jsx';
 
-// storeLayout의 좌 슬라이드
+// "2025-11-20T19:13:50" -> "2025-11-20"
+function getDateKey(dateString) {
+  const d = new Date(dateString);
+  if (Number.isNaN(d.getTime())) return 'invalid';
+  return d.toISOString().split('T')[0];
+}
+
+// "2025-11-20T19:13:50" -> "11월 20일"
+function formatDateLabel(dateString) {
+  const d = new Date(dateString);
+  if (Number.isNaN(d.getTime())) return '';
+  return d.toLocaleDateString('ko-KR', {
+    month: 'long',
+    day: 'numeric',
+  });
+}
+
+// storeLayout의 좌 슬라이드 (가게 홈)
 export default function StoreHome() {
-  const [sections, setSections] = useState([]);
+  const [reservations, setReservations] = useState([]); // 평평한 배열
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState(''); // 검색어
 
@@ -29,19 +46,49 @@ export default function StoreHome() {
   useEffect(() => {
     const load = async () => {
       setLoading(true);
-      const data = await fetchStoreData();
 
+      // TODO: 나중에는 로그인 정보에서 가져오기
+      const marketId = 1;
+      const accessToken = localStorage.getItem('accessToken'); // 아직 없으면 null
+
+      const data = await fetchStoreData(marketId, accessToken);
+
+      // reservationTime 기준으로 최신순 정렬
       const sorted = [...data].sort(
-        (a, b) => new Date(b.date) - new Date(a.date),
+        (a, b) =>
+          new Date(b.reservationTime) - new Date(a.reservationTime),
       );
-      setSections(sorted);
+      setReservations(sorted);
       setLoading(false);
     };
 
     load();
   }, []);
 
-  // sections에서 실제로 존재하는 연/월 목록 뽑기 (드롭다운용)
+  // 원본 reservations → 날짜별 섹션 구조로 변환
+  const sections = useMemo(() => {
+    const grouped = reservations.reduce((acc, item) => {
+      const key = getDateKey(item.reservationTime);
+      if (!acc[key]) {
+        acc[key] = {
+          date: key, // "2025-11-20"
+          label: formatDateLabel(item.reservationTime), // "11월 20일"
+          reservations: [],
+        };
+      }
+      acc[key].reservations.push(item);
+      return acc;
+    }, {});
+
+    // 날짜 내림차순 정렬
+    const sortedKeys = Object.keys(grouped).sort(
+      (a, b) => new Date(b) - new Date(a),
+    );
+
+    return sortedKeys.map((key) => grouped[key]);
+  }, [reservations]);
+
+  // 섹션들에서 실제 존재하는 연/월 목록 뽑기 (드롭다운용)
   const availableMonths = useMemo(() => {
     const map = new Map();
 
@@ -64,13 +111,12 @@ export default function StoreHome() {
     });
   }, [sections]);
 
-  // 연/월 + 검색어로 필터링
+  // 🔹 연/월 + 검색어로 필터링된 섹션
   const filteredSections = useMemo(() => {
     const keyword = search.trim().toLowerCase();
-
     const { year, month } = yearMonthFilter;
 
-    // 1) 먼저 연/월로 필터
+    // 1) 연/월로 필터
     const byMonth = sections.filter((section) => {
       const d = new Date(section.date);
       if (Number.isNaN(d.getTime())) return false;
@@ -80,15 +126,15 @@ export default function StoreHome() {
       );
     });
 
-    // 2) 검색어 없으면 여기까지만
+    // 2) 검색어 없으면 여기까지
     if (!keyword) return byMonth;
 
-    // 3) 검색어 있으면 시설명으로 한 번 더 필터
+    // 3) 검색어 있으면 centerName으로 한 번 더 필터
     return byMonth
       .map((section) => ({
         ...section,
         reservations: section.reservations.filter((r) =>
-          r.centerName.toLowerCase().includes(keyword),
+          (r.centerName || '').toLowerCase().includes(keyword),
         ),
       }))
       .filter((section) => section.reservations.length > 0);
