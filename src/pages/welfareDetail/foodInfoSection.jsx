@@ -2,7 +2,7 @@ import styles from '../welfareDetail.module.css';
 
 function formatEndDate(endTime) {
   if (!endTime) return '';
-  // 마감시간 -> 2025-11-15형식으로
+  // 마감시간 -> 2025-11-15"
   const [y, m, d] = endTime.split('-');
   return `${y}.${m}.${d}`;
 }
