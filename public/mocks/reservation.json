@@ -1,23 +1,18 @@
 [
   {
-    "storeName": "행복베이커리",
-    "marketId": "market1",
-    "expirationDate": "2025-11-25T23:59:59Z",
-    "isReviewed": false,
-    "reservedAt": "2025-10-12T10:15:30Z"
+    "reservationId": 1,
+    "marketName": "장볼랭제리",
+    "endTime": "2025-12-31T23:59:59",
+    "count": 2,
+    "status": "픽업 전",
+    "reservationTime": "2025-11-20T19:13:50"
   },
   {
-    "storeName": "초밥 12pcs",
-    "marketId": "market2",
-    "expirationDate": "2025-11-25T23:59:59Z",
-    "isReviewed": false,
-    "reservedAt": "2025-11-13T10:15:30Z"
-  },
-  {
-    "storeName": "햄에그 샌드위치",
-    "marketId": "market3",
-    "expirationDate": "2025-12-10T11:03:35Z",
-    "isReviewed": true,
-    "reservedAt": "2025-11-11T10:15:30Z"
+    "reservationId": 2,
+    "marketName": "장볼랭제리",
+    "endTime": "2025-12-31T23:59:59",
+    "count": 1,
+    "status": "작성 완료",
+    "reservationTime": "2025-11-20T19:24:58.701212"
   }
 ]

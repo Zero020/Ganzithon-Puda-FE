@@ -1,6 +1,8 @@
 import { useState, useEffect, useMemo } from 'react';
 import styles from './welfare_reservation.module.css';
 import logo from '@/assets/logo3.svg';
+import icon_clock from '@/assets/icon_clock_selected.svg';
+import icon_users from '@/assets/icon_people.svg';
 import ReceiptCertModal from './receiptCertModal.jsx';
 import ReviewWriteModal from './reviewWriteModal.jsx';
 
@@ -72,7 +74,7 @@ export default function WelfareReservation() {
     const map = new Map();
 
     posts.forEach((item) => {
-      const d = new Date(item.reservedAt);
+      const d = new Date(item.reservationTime);
       if (Number.isNaN(d.getTime())) return;
       const y = d.getFullYear();
       const m = d.getMonth() + 1;
@@ -94,21 +96,18 @@ export default function WelfareReservation() {
     const { year, month } = yearMonthFilter;
 
     return posts.filter((item) => {
-      const d = new Date(item.reservedAt);
+      const d = new Date(item.reservationTime);
       if (Number.isNaN(d.getTime())) return false;
-      return (
-        d.getFullYear() === year &&
-        d.getMonth() + 1 === month
-      );
+      return d.getFullYear() === year && d.getMonth() + 1 === month;
     });
   }, [posts, yearMonthFilter]);
 
-  // 날짜별 그룹화 (reservedAt 기준)
+  // 그룹화
   const grouped = filteredPosts.reduce((acc, item) => {
-    const key = getDateKey(item.reservedAt);
+    const key = getDateKey(item.reservationTime); // ⬅ 변경
     if (!acc[key]) {
       acc[key] = {
-        label: formatReservedLabel(item.reservedAt),
+        label: formatReservedLabel(item.reservationTime), // ⬅ 변경
         items: [],
       };
     }
@@ -195,9 +194,10 @@ export default function WelfareReservation() {
 
       {/* 컬럼 헤더 */}
       <div className={styles.reservationTableHeader}>
-        <div>가게명</div>
-        <div>마감기한</div>
-        <div>상태</div>
+        <div className="coll">가게명</div>
+        <div className="coll">마감기한</div>
+        <div className="coll">수량</div>
+        <div className="coll">상태</div>
       </div>
       <hr className={styles.divider} />
 
@@ -217,26 +217,39 @@ export default function WelfareReservation() {
 
                 {/* 해당 날짜의 예약들 */}
                 {section.items.map((item) => (
-                  <div key={item.marketId}>
+                  <div key={item.reservationId}>
                     <div className={styles.row}>
-                      <div className={styles.cellStore}>{item.storeName}</div>
-                      <div className={styles.cellDeadline}>
-                        {formatExpirationDate(item.expirationDate)}
+                      <div className={styles.cellStore}>{item.marketName}</div>
+                      <div
+                        className={`${styles.cellDeadline} ${styles.deadlineCol}`}
+                      >
+                        <img src={icon_clock} alt="" className="icon-search" />
+                        {formatExpirationDate(item.endTime)}
                       </div>
+
+                      <div className={styles.cellCount} countCol>
+                        {' '}
+                        <img src={icon_users} alt="" className="icon-search" />
+                        {item.count}
+                      </div>
+
                       <div className={styles.cellStatus}>
-                        {item.isReviewed ? (
+                        {item.status === '작성 완료' ? (
+                          // 작성 완료 → 비활성화된 버튼
                           <button
                             type="button"
+                            disabled
                             className={`${styles.statusButton} ${styles.statusDone}`}
-                            onClick={() => {}}
                           >
                             ✓ 작성 완료
                           </button>
                         ) : (
+                          // 픽업 전 → 클릭 가능 + 툴팁 표시
                           <button
                             type="button"
                             className={`${styles.statusButton} ${styles.statusTodo}`}
                             onClick={() => handleOpenStep1()}
+                            title="픽업을 완료하셨나요? 픽업 후에 버튼을 눌러 리뷰를 작성해주세요."
                           >
                             리뷰작성
                           </button>
