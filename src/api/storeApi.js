@@ -40,45 +40,30 @@ export async function fetchStoreData(marketId, accessToken) {
   return data;
 }
 
-// === 상품 등록 ===
 export async function createFoods(items, marketId) {
-  if (!marketId) throw new Error('marketId가 필요합니다.');
+  const results = [];
 
-  if (USE_MOCK || !BASE_URL) {
-    console.log('음식 등록(mock)', items);
-    await new Promise((res) => setTimeout(res, 500));
-    return { success: true };
+  for (const it of items) {
+    const formData = new FormData();
+    formData.append("marketId", marketId);
+    formData.append("name", it.foodName);
+    formData.append("description", it.description);
+    formData.append("count", it.quantity);
+    formData.append("endTime", `${it.deadlineDate}T23:59:59`);
+
+    if (it.imageUrl instanceof File) {
+      formData.append("image", it.imageUrl);
+    }
+
+    const res = await fetch(`${BASE_URL}/api/markets/${marketId}/products`, {
+      method: "POST",
+      body: formData
+    });
+
+    if (!res.ok) throw new Error(await res.text());
+
+    results.push(await res.json());
   }
 
-  // FormData 생성
-  const formData = new FormData();
-
-  // marketId가 path가 아니라 body로 필요하면 같이 append
-  formData.append('marketId', marketId);
-
-  // items를 FormData에 명세 형태로 넣기
-  items.forEach((it, idx) => {
-    // 텍스트/숫자 필드들
-    formData.append(`foods[${idx}].name`, it.foodName);
-    formData.append(`foods[${idx}].description`, it.description);
-    formData.append(`foods[${idx}].count`, String(it.quantity));
-    formData.append(`foods[${idx}].endTime`, `${it.deadlineDate}T23:59:59`);
-    formData.append(`foods[${idx}].foodDeadline`, `${it.expireDate}T23:59:59`);
-
-    // 이미지: File 그대로 append
-    if (it.imageUrl) {
-      formData.append(`foods[${idx}].image`, it.imageUrl);
-      // ↑ 백엔드가 받는 키가 image가 아니라 imageUrl이면
-      // formData.append(`foods[${idx}].imageUrl`, it.imageUrl);
-      // 로 바꿔줘
-    }
-  });
-
-  // axios POST
-  const res = await axios.post(
-    `${BASE_URL}/api/markets/${marketId}/products`,
-    formData
-  );
-
-  return res.data;
+  return results;
 }

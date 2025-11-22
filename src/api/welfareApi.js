@@ -1,5 +1,3 @@
-import { file2Base64 } from './utils.js';
-
 const BASE_URL = import.meta.env.VITE_API_BASE_URL; // 나중에 백엔드 주소 넣을 곳
 const USE_MOCK = import.meta.env.VITE_USE_MOCK === 'true';
 
