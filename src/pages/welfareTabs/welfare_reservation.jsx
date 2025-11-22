@@ -7,7 +7,7 @@ import ReceiptCertModal from './receiptCertModal.jsx';
 import ReviewWriteModal from './reviewWriteModal.jsx';
 
 // API
-import { loadReservation } from '@/api/welfareApi.js';
+import { loadReservation, patchReservationStatus } from '@/api/welfareApi.js';
 
 // "2025-11-25T23:59:59Z" -> "2025.11.25"
 function formatExpirationDate(dateString) {
@@ -19,20 +19,18 @@ function formatExpirationDate(dateString) {
   return `${y}.${m}.${day}`;
 }
 
-// reservedAt -> 섹션 키용(YYYY-MM-DD)
 function getDateKey(dateString) {
   const d = new Date(dateString);
   if (Number.isNaN(d.getTime())) return 'invalid';
-  return d.toISOString().split('T')[0]; // "2025-11-12"
+  return d.toISOString().split('T')[0];
 }
 
-// reservedAt -> "11월 12일"
 function formatReservedLabel(dateString) {
   const d = new Date(dateString);
   if (Number.isNaN(d.getTime())) return '';
   return d.toLocaleDateString('ko-KR', {
-    month: 'long', // "11월"
-    day: 'numeric', // "12일"
+    month: 'long',
+    day: 'numeric',
   });
 }
 
@@ -44,32 +42,41 @@ export default function WelfareReservation() {
   const [isReviewModalOpen, setReviewModalOpen] = useState(false);
   const [receiptImage, setReceiptImage] = useState(null);
 
-  // 상단에 표시할 현재 연/월
+  const [activeReservationId, setActiveReservationId] = useState(null);
+  const [activeMarketId, setActiveMarketId] = useState(null); // ✅ 추가
+
+  // PATCH 진행 중 reservationId들
+  const [pendingIds, setPendingIds] = useState(() => new Set());
+
   const now = new Date();
   const currentYear = now.getFullYear();
   const currentMonth = now.getMonth() + 1;
 
-  // 선택된 연/월 (필터용) – 초기값: 이번 달
   const [yearMonthFilter, setYearMonthFilter] = useState({
     year: currentYear,
     month: currentMonth,
   });
-
-  // 드롭다운 열림 여부
   const [isMonthOpen, setIsMonthOpen] = useState(false);
+
+  const getUser = () => JSON.parse(localStorage.getItem('user') || '{}');
+  const getCenterId = () => getUser()?.userId;
+  const centerId = getCenterId();
+
+  const refetchReservations = async () => {
+    const data = await loadReservation(centerId);
+    setPosts(data || []);
+  };
 
   useEffect(() => {
     setLoading(true);
 
-    loadReservation()
-      .then((data) => {
-        setPosts(data || []);
-      })
+    refetchReservations()
       .catch((err) => console.error(err))
       .finally(() => setLoading(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  //예약 데이터에서 실제로 존재하는 연/월 목록 뽑기 (드롭다운용)
+  // 예약 데이터에서 존재하는 연/월 목록
   const availableMonths = useMemo(() => {
     const map = new Map();
 
@@ -79,19 +86,16 @@ export default function WelfareReservation() {
       const y = d.getFullYear();
       const m = d.getMonth() + 1;
       const key = `${y}-${String(m).padStart(2, '0')}`;
-      if (!map.has(key)) {
-        map.set(key, { year: y, month: m });
-      }
+      if (!map.has(key)) map.set(key, { year: y, month: m });
     });
 
-    // 최신 달이 위로 오도록 정렬
     return Array.from(map.values()).sort((a, b) => {
       if (a.year !== b.year) return b.year - a.year;
       return b.month - a.month;
     });
   }, [posts]);
 
-  // 선택된 연/월 기준으로 posts 필터링
+  // 선택된 연/월 기준 필터링
   const filteredPosts = useMemo(() => {
     const { year, month } = yearMonthFilter;
 
@@ -102,12 +106,12 @@ export default function WelfareReservation() {
     });
   }, [posts, yearMonthFilter]);
 
-  // 그룹화
+  // 날짜별 그룹화
   const grouped = filteredPosts.reduce((acc, item) => {
-    const key = getDateKey(item.reservationTime); // ⬅ 변경
+    const key = getDateKey(item.reservationTime);
     if (!acc[key]) {
       acc[key] = {
-        label: formatReservedLabel(item.reservationTime), // ⬅ 변경
+        label: formatReservedLabel(item.reservationTime),
         items: [],
       };
     }
@@ -115,35 +119,80 @@ export default function WelfareReservation() {
     return acc;
   }, {});
 
-  // 날짜 내림차순 정렬 (최근 날짜 위로)
   const sortedDateKeys = Object.keys(grouped).sort(
     (a, b) => new Date(b) - new Date(a)
   );
 
-  const handleOpenStep1 = () => {
+  // Set helpers
+  const addPending = (id) =>
+    setPendingIds((prev) => new Set(prev).add(id));
+  const removePending = (id) =>
+    setPendingIds((prev) => {
+      const next = new Set(prev);
+      next.delete(id);
+      return next;
+    });
+  const isPending = (id) => pendingIds.has(id);
+
+  // 1단계: 픽업 완료 버튼 (item 전체 받음)
+  const handlePickupComplete = async (item) => {
+    const reservationId = item.reservationId;
+    if (isPending(reservationId)) return;
+
+    try {
+      addPending(reservationId);
+      setActiveMarketId(item.marketId); // ✅ marketId 저장
+
+      await patchReservationStatus(reservationId);
+      await refetchReservations();
+    } catch (err) {
+      console.error(err);
+      alert('픽업 완료 처리에 실패했습니다.');
+    } finally {
+      removePending(reservationId);
+    }
+  };
+
+  // 2단계: 리뷰작성 버튼 → 영수증 모달
+  const handleOpenStep1 = (item) => {
+    if (isPending(item.reservationId)) return;
+    setActiveReservationId(item.reservationId);
+    setActiveMarketId(item.marketId); // ✅ marketId 저장
     setReceiptModalOpen(true);
   };
 
   const handleReceiptNext = (file) => {
-    setReceiptImage(file); // 필요하면 저장
+    setReceiptImage(file);
     setReceiptModalOpen(false);
-    setReviewModalOpen(true); // 2단계 오픈
+    setReviewModalOpen(true);
   };
 
   const handleReviewPrev = () => {
     setReviewModalOpen(false);
-    setReceiptModalOpen(true); // 다시 1단계로
+    setReceiptModalOpen(true);
   };
 
-  const handleReviewSubmit = ({ text, photos }) => {
-    console.log('리뷰 내용:', text);
-    console.log('추가 사진:', photos);
-    console.log('영수증 이미지:', receiptImage);
-    setReviewModalOpen(false);
-    // TODO: 서버에 리뷰 등록 API 호출
+  // 3단계: 리뷰 등록 성공 콜백
+  const handleReviewSubmit = async () => {
+    if (!activeReservationId || isPending(activeReservationId)) return;
+
+    try {
+      addPending(activeReservationId);
+
+      await patchReservationStatus(activeReservationId);
+      await refetchReservations();
+    } catch (err) {
+      console.error(err);
+      alert('리뷰 상태 변경에 실패했습니다.');
+    } finally {
+      removePending(activeReservationId);
+      setReviewModalOpen(false);
+      setReceiptImage(null);
+      setActiveReservationId(null);
+      setActiveMarketId(null); // ✅ 초기화
+    }
   };
 
-  // 🔹 월 선택 시
   const handleSelectMonth = (ym) => {
     setYearMonthFilter(ym);
     setIsMonthOpen(false);
@@ -153,13 +202,10 @@ export default function WelfareReservation() {
 
   return (
     <div className={styles.welfareReservationContainer}>
-      {/* 상단 헤더 */}
       <div className={styles.topHeader}>
         <img src={logo} alt="Logo" className={styles.logo} />
       </div>
-      {/* <div className={styles.topHeaderText}>예약 현황</div> */}
 
-      {/* 연/월 표시 + 드롭다운 */}
       <div className={styles.monthWrapper}>
         <button
           type="button"
@@ -192,7 +238,6 @@ export default function WelfareReservation() {
         )}
       </div>
 
-      {/* 컬럼 헤더 */}
       <div className={styles.reservationTableHeader}>
         <div className="coll">가게명</div>
         <div className="coll">마감기한</div>
@@ -201,7 +246,6 @@ export default function WelfareReservation() {
       </div>
       <hr className={styles.divider} />
 
-      {/* 로딩 / 빈 상태 / 리스트 */}
       {loading ? (
         <div className={styles.loading}>로딩 중...</div>
       ) : hasNoData ? (
@@ -212,53 +256,66 @@ export default function WelfareReservation() {
             const section = grouped[dateKey];
             return (
               <div key={dateKey} className={styles.dateSection}>
-                {/* 날짜 헤더: 예) 11월 12일 */}
                 <div className={styles.dateLabel}>{section.label}</div>
 
-                {/* 해당 날짜의 예약들 */}
-                {section.items.map((item) => (
-                  <div key={item.reservationId}>
-                    <div className={styles.row}>
-                      <div className={styles.cellStore}>{item.marketName}</div>
-                      <div
-                        className={`${styles.cellDeadline} ${styles.deadlineCol}`}
-                      >
-                        <img src={icon_clock} alt="" className="icon-search" />
-                        {formatExpirationDate(item.endTime)}
-                      </div>
+                {section.items.map((item) => {
+                  const pending = isPending(item.reservationId);
 
-                      <div className={styles.cellCount} countCol>
-                        {' '}
-                        <img src={icon_users} alt="" className="icon-search" />
-                        {item.count}
-                      </div>
+                  return (
+                    <div key={item.reservationId}>
+                      <div className={styles.row}>
+                        <div className={styles.cellStore}>
+                          {item.marketName}
+                        </div>
 
-                      <div className={styles.cellStatus}>
-                        {item.status === '작성 완료' ? (
-                          // 작성 완료 → 비활성화된 버튼
-                          <button
-                            type="button"
-                            disabled
-                            className={`${styles.statusButton} ${styles.statusDone}`}
-                          >
-                            ✓ 작성 완료
-                          </button>
-                        ) : (
-                          // 픽업 전 → 클릭 가능 + 툴팁 표시
-                          <button
-                            type="button"
-                            className={`${styles.statusButton} ${styles.statusTodo}`}
-                            onClick={() => handleOpenStep1()}
-                            title="픽업을 완료하셨나요? 픽업 후에 버튼을 눌러 리뷰를 작성해주세요."
-                          >
-                            리뷰작성
-                          </button>
-                        )}
+                        <div
+                          className={`${styles.cellDeadline} ${styles.deadlineCol}`}
+                        >
+                          <img src={icon_clock} alt="" className="icon-search" />
+                          {formatExpirationDate(item.endTime)}
+                        </div>
+
+                        <div>
+                          <img src={icon_users} alt="" className="icon-search" />
+                          {item.count}
+                        </div>
+
+                        <div className={styles.cellStatus}>
+                          {item.status === '작성 완료' ? (
+                            <button
+                              type="button"
+                              disabled
+                              className={`${styles.statusButton} ${styles.statusDone}`}
+                            >
+                              ✓ 작성 완료
+                            </button>
+                          ) : item.status === '픽업 완료' ? (
+                            <button
+                              type="button"
+                              disabled={pending}
+                              className={`${styles.statusButton} ${styles.statusTodo}`}
+                              onClick={() => handleOpenStep1(item)}
+                              title="픽업이 완료되었습니다. 리뷰를 작성해주세요."
+                            >
+                              {pending ? '처리중...' : '리뷰작성'}
+                            </button>
+                          ) : (
+                            <button
+                              type="button"
+                              disabled={pending}
+                              className={`${styles.statusButton} ${styles.statusTodo}`}
+                              onClick={() => handlePickupComplete(item)}
+                              title="픽업을 완료하셨나요? 완료 후 버튼을 눌러주세요."
+                            >
+                              {pending ? '처리중...' : '픽업 완료'}
+                            </button>
+                          )}
+                        </div>
                       </div>
+                      <hr className={styles.sectionDivider} />
                     </div>
-                    <hr className={styles.sectionDivider} />
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             );
           })}
@@ -269,6 +326,7 @@ export default function WelfareReservation() {
         open={isReceiptModalOpen}
         onClose={() => setReceiptModalOpen(false)}
         onNext={handleReceiptNext}
+        reservationId={activeReservationId}
       />
 
       <ReviewWriteModal
@@ -276,6 +334,9 @@ export default function WelfareReservation() {
         onClose={() => setReviewModalOpen(false)}
         onPrev={handleReviewPrev}
         onSubmit={handleReviewSubmit}
+        reservationId={activeReservationId}
+        marketId={activeMarketId}   // ✅ 저장해둔 값 전달
+        centerId={centerId}
       />
     </div>
   );

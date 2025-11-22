@@ -6,39 +6,45 @@ import iconSearch from '@/assets/icon_search.svg';
 import icon_logout from '@/assets/icon_logout.svg';
 import { logout } from '../auth/auth.jsx';
 import { useNavigate } from 'react-router-dom';
+
 // API
 import { fetchPosts } from '@/api/welfareApi.js';
 
 // Components
 import PostCard from './postCard.jsx';
 
-const SORT_OPTIONS = [
-  { id: 'default', label: '기본' },
-  { id: 'distance', label: '거리순' },
-  { id: 'deadline', label: '마감임박순' },
-];
-
 export default function WelfareHome() {
-  const [sortType, setSortType] = useState('default');
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
-
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const navigate = useNavigate();
 
+  // 초기 게시글 불러오기
   useEffect(() => {
     setLoading(true);
 
-    fetchPosts(sortType)
+    fetchPosts()
       .then((data) => {
         setPosts(data);
       })
       .catch((err) => console.error(err))
       .finally(() => setLoading(false));
-  }, [sortType]);
+  }, []); // 정렬 제거 → 빈 배열
 
-  // 검색어 + 정렬 결과 기반으로 필터링
+  const refetchPosts = async () => {
+    setLoading(true);
+    try {
+      const data = await fetchPosts();
+      setPosts(data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 검색 필터링
   const filteredPosts = useMemo(() => {
     if (!search.trim()) return posts;
 
@@ -46,7 +52,6 @@ export default function WelfareHome() {
 
     return posts.filter((post) => {
       const targetText = (post.foodName || '').toLowerCase();
-
       return targetText.includes(keyword);
     });
   }, [search, posts]);
@@ -65,7 +70,7 @@ export default function WelfareHome() {
               src={icon_logout}
               alt="logout"
               className={styles.logoutIcon}
-              onClick={() => setShowLogoutModal(true)} //모달 열기
+              onClick={() => setShowLogoutModal(true)}
             />
           </div>
         </div>
@@ -82,22 +87,6 @@ export default function WelfareHome() {
         </label>
       </div>
 
-      {/* 정렬 필터 */}
-      <div className={styles.sortFilter}>
-        {SORT_OPTIONS.map((option) => (
-          <button
-            key={option.id}
-            type="button"
-            className={`${styles.sortButton} ${
-              sortType === option.id ? styles.sortButtonActive : ''
-            }`}
-            onClick={() => setSortType(option.id)}
-          >
-            {option.label}
-          </button>
-        ))}
-      </div>
-
       {/* 로딩 */}
       {loading && <p>불러오는 중...</p>}
 
@@ -107,7 +96,7 @@ export default function WelfareHome() {
       {/* 게시글 리스트 */}
       <div className={styles.postList}>
         {filteredPosts.map((post) => (
-          <PostCard key={post.productId} post={post} />
+          <PostCard key={post.productId} post={post} onReserved={refetchPosts} />
         ))}
       </div>
 
@@ -127,9 +116,9 @@ export default function WelfareHome() {
                 type="button"
                 className={`${styles.logoutModalBtn} ${styles.logoutConfirm}`}
                 onClick={() => {
-                  logout(); // 로그인 정보 삭제
+                  logout();
                   setShowLogoutModal(false);
-                  navigate('/login'); // 로그인 페이지로 이동
+                  navigate('/login');
                 }}
               >
                 로그아웃

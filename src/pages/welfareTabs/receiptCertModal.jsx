@@ -4,28 +4,37 @@ import UploadIcon from '@/assets/icon_upload.svg';
 
 import { checkReceipt } from '@/api/welfareApi.js';
 
-export default function ReceiptCertModal({ open, onClose, onNext }) {
-  const [isVisible, setIsVisible] = useState(open); // DOM에 붙어있는지 여부
+export default function ReceiptCertModal({
+  open,
+  onClose,
+  onNext,
+  reservationId, // ⭐ 추가: 어떤 예약인지 필요
+}) {
+  const [isVisible, setIsVisible] = useState(open);
   const [isClosing, setIsClosing] = useState(false);
-  const [nextStepAllowed, setNextStepAllowed] = useState(false);
+
   const [selectedFile, setSelectedFile] = useState(null);
+  const [nextStepAllowed, setNextStepAllowed] = useState(false);
+
+  // ⭐ 영수증 검증 진행 중
+  const [isChecking, setIsChecking] = useState(false);
 
   useEffect(() => {
     if (open) {
-      // 열릴 때: 바로 렌더 + closing 해제
       setIsVisible(true);
       setIsClosing(false);
-      // 새로 열릴 때마다 상태 초기화
-      setNextStepAllowed(false);
+
+      // 새로 열릴 때 리셋
       setSelectedFile(null);
+      setNextStepAllowed(false);
+      setIsChecking(false);
     } else if (!open && isVisible) {
-      // 닫힐 때: 애니메이션만 돌리고, 끝나면 언마운트
       setIsClosing(true);
 
       const timer = setTimeout(() => {
         setIsVisible(false);
         setIsClosing(false);
-      }, 250); // modalSlideDown 0.25s 와 맞추기
+      }, 250);
 
       return () => clearTimeout(timer);
     }
@@ -34,40 +43,56 @@ export default function ReceiptCertModal({ open, onClose, onNext }) {
   if (!isVisible) return null;
 
   const handleCloseClick = () => {
-    // 부모에게 "닫아줘" 신호만 보냄
     if (onClose) onClose();
   };
 
-  // 파일 선택 핸들러
-  const handleFileChange = (e) => {
+  // ⭐ 파일 선택 시 → 바로 영수증 검증 API 호출
+  const handleFileChange = async (e) => {
     const file = e.target.files?.[0];
+
     if (!file) {
       setSelectedFile(null);
       setNextStepAllowed(false);
       return;
     }
+
     setSelectedFile(file);
-    // TODO: api로 영수증 검증 로직
-    setNextStepAllowed(true); // 이미지가 들어온 순간 다음 단계 허용
+
+    // 👇 검증 시작
+    setIsChecking(true);
+    setNextStepAllowed(false);
+
+    try {
+      // ⭐ API 호출 (true / false)
+      const isValid = await checkReceipt(reservationId, file);
+
+      if (isValid) {
+        setNextStepAllowed(true);
+      } else {
+        setNextStepAllowed(false);
+        alert('유효한 영수증이 아닙니다. 다시 업로드해주세요.');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('영수증 확인 중 오류가 발생했습니다.');
+      setNextStepAllowed(false);
+    } finally {
+      setIsChecking(false);
+    }
   };
 
-  // 다음 단계 버튼 클릭
   const handleNextClick = () => {
-    if (!nextStepAllowed) return; // 방어 코드
-    // 나중에 영수증 판별 로직 들어갈 자리
-    // onNext에 파일도 넘기고 싶다면 onNext(selectedFile)로 변경하면 됨
+    if (!nextStepAllowed) return;
     if (onNext) onNext(selectedFile);
   };
 
   return (
     <div
       className={isClosing ? styles.backdropClosing : styles.backdrop}
-      // 배경을 눌러도 닫고 싶으면:
       onClick={handleCloseClick}
     >
       <div
         className={isClosing ? styles.modalClosing : styles.modal}
-        // 모달 내부 클릭 시 버블링 방지
         onClick={(e) => e.stopPropagation()}
       >
         {/* 헤더 */}
@@ -82,7 +107,6 @@ export default function ReceiptCertModal({ open, onClose, onNext }) {
           </button>
         </div>
 
-        {/* 설명 텍스트 */}
         <p className={styles.description}>
           영수증을 업로드하여 기부를 인증해주세요
         </p>
@@ -103,24 +127,29 @@ export default function ReceiptCertModal({ open, onClose, onNext }) {
         </div>
 
         <label className={styles.uploadBox}>
-          {/* 실제 파일 input 은 숨김 */}
           <input
             type="file"
             accept="image/*"
             className={styles.fileInput}
             onChange={handleFileChange}
           />
+
           <img
             src={UploadIcon}
             alt="Upload Icon"
             className={styles.uploadIcon}
           />
+
           <div className={styles.uploadText}>
-            {selectedFile ? '1개의 파일이 선택되었습니다' : '갤러리에서 선택'}
+            {isChecking
+              ? '영수증 확인 중...'
+              : selectedFile
+              ? '1개의 파일이 선택되었습니다'
+              : '갤러리에서 선택'}
           </div>
         </label>
 
-        {/* 하단 버튼 영역 */}
+        {/* 하단 버튼 */}
         <div className={styles.footer}>
           <button
             type="button"
@@ -136,10 +165,10 @@ export default function ReceiptCertModal({ open, onClose, onNext }) {
                 ? styles.buttonPrimary
                 : styles.buttonPrimaryDisabled
             }
-            disabled={!nextStepAllowed}
+            disabled={!nextStepAllowed || isChecking}
             onClick={handleNextClick}
           >
-            다음 단계
+            {isChecking ? '확인 중...' : '다음 단계'}
           </button>
         </div>
       </div>

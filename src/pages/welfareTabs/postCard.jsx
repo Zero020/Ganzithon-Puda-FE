@@ -5,15 +5,19 @@ import styles from './postCard.module.css';
 import deadlineIcon from '@/assets/icon_deadline.svg';
 import quantityIcon from '@/assets/icon_quantity.svg';
 import defaultFoodImage from '@/assets/default_food_image.png';
+import ReservationModal from './reservationModal.jsx';
 
 // API
 import { createReservation } from '@/api/welfareApi.js';
 
-export default function PostCard({ post }) {
+
+export default function PostCard({ post, onReserved }) {
   const navigate = useNavigate();
 
-  const { productId, name, imageUrl, address, endTime, isReserved, quantity } =
+  const { productId, name, imageUrl, address, endTime, count } =
     post;
+  
+  const isReserved = (count === 0);
 
   // D-DAY 계산
   let dDayLabel = '';
@@ -44,6 +48,7 @@ export default function PostCard({ post }) {
 
   const [image, setImageUrl] = useState(imageUrl ?? defaultFoodImage);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   const handleClickCard = () => {
     navigate(`/welfare/detail/${productId}`);
@@ -52,34 +57,14 @@ export default function PostCard({ post }) {
   const handleReserveClick = async (e) => {
     e.stopPropagation(); // 카드 클릭 막기
     if (isReserved || isSubmitting) return;
-
-    const ok = window.confirm(
-      `노쇼 방지를 위해 아래 내용을 꼭 확인해주세요.\n\n` +
-        `• 예약 후 방문하지 않으면 다른 분들이 음식을 받지 못할 수 있어요.\n` +
-        `• 방문이 어려울 경우 반드시 예약을 취소해주세요.\n\n` +
-        `예약을 진행하려면 '확인'을 눌러주세요.`
-    );
-
-    if (!ok) return;
-
-    try {
-      setIsSubmitting(true);
-      const user = JSON.parse(localStorage.getItem('user'));
-      const count = 1; // 현재 1개만 예약 가능
-      await createReservation(productId, user.userId, count);
-      alert('예약이 완료됐어요! 약속한 시간에 꼭 방문해주세요 🙂');
-    } catch (err) {
-      alert(err.message ?? '예약에 실패했어요. 다시 시도해주세요.');
-    } finally {
-      setIsSubmitting(false);
-    }
+    setOpenModal(true);
   };
 
   return (
     <div className={styles.postCard} onClick={handleClickCard}>
       <div className={styles.imageWrap}>
         <img
-          src={image}
+          src={image || null}
           alt={name}
           className={styles.foodImg}
           onError={() => setImageUrl(defaultFoodImage)}
@@ -103,7 +88,7 @@ export default function PostCard({ post }) {
           alt="quantity"
           className={styles.quantityIcon}
         />
-        <div className={styles.quantity}>{quantity}</div>
+        <div className={styles.quantity}>{count}</div>
       </div>
 
       <div className={styles.deadline}>
@@ -122,6 +107,41 @@ export default function PostCard({ post }) {
       </div>
 
       <div className={styles.address}>{address}</div>
+
+      <ReservationModal
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        maxQuantity={count}
+        initialQuantity={1}
+        noticeText={
+          `노쇼 방지를 위해 아래 내용을 꼭 확인해주세요.\n\n` +
+          `• 예약 후 방문하지 않으면 다른 분들이 음식을 받지 못할 수 있어요.\n` +
+          `• 방문이 어려울 경우 반드시 예약을 취소해주세요.`
+        }
+        loading={isSubmitting}
+        onConfirm={async (selectedCount) => {
+          try {
+            setIsSubmitting(true);
+            const user = JSON.parse(localStorage.getItem('user'));
+
+            await createReservation(productId, user.userId, selectedCount);
+
+            
+            alert('예약이 완료됐어요! 약속한 시간에 꼭 방문해주세요 🙂');
+
+            setOpenModal(false);
+
+            // ⭐ 부모에게 "예약 완료됨" 전달 → 목록 새로고침
+            if (onReserved) onReserved();
+            
+          } catch (err) {
+            alert(err.message ?? '예약에 실패했어요. 다시 시도해주세요.');
+          } finally {
+            setIsSubmitting(false);
+          }
+        }}
+      />
+
     </div>
   );
 }
