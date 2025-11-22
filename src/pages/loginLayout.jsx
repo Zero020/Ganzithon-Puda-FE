@@ -19,6 +19,7 @@ export default function LoginPage() {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [isLoginError, setIsLoginError] = useState(''); //로그인 에러 상태
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (type && type !== userType) {
@@ -38,34 +39,30 @@ export default function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const role = userType === USER_TYPES.STORE ? 'MARKET' : 'CENTER'; //api명세서 롤이름
-    console.log('로그인 시도', { userType, id, password });
+
+    setIsLoading(true); // 로그인 시작
+    const role = userType === USER_TYPES.STORE ? 'MARKET' : 'CENTER';
+
     try {
       setIsLoginError('');
       const data = await loginApi({ loginId: id, password, role });
-      if (data.accessToken) {
-        localStorage.setItem('accessToken', data.accessToken);
-      }
-      if (data.refreshToken) {
-        localStorage.setItem('refreshToken', data.refreshToken);
-      }
 
-      // (2) 유저 저장
+      if (data.accessToken)
+        localStorage.setItem('accessToken', data.accessToken);
+      if (data.refreshToken)
+        localStorage.setItem('refreshToken', data.refreshToken);
+
       localStorage.setItem('user', JSON.stringify(data));
 
-      //role에 따라 페이지 분기
-      if (role === 'MARKET') {
-        navigate('/store/home'); // 가게 홈
-      } else if (role === 'CENTER') {
-        navigate('/welfare/home'); // 복지시설 홈
-      } else {
-        navigate('/');
-      }
+      if (role === 'MARKET') navigate('/store/home');
+      else navigate('/welfare/home');
     } catch (error) {
       console.error(error);
       setIsLoginError(
         error.message || '아이디 또는 비밀번호가 일치하지 않습니다.'
       );
+    } finally {
+      setIsLoading(false); // 로그인 끝
     }
   };
 
@@ -99,8 +96,9 @@ export default function LoginPage() {
         onChangeId={setId}
         onChangePassword={setPassword}
         onSubmit={handleSubmit}
-        disabled={isDisabled}
+        disabled={isDisabled || isLoading}
         isError={!!isLoginError}
+        isLoading={isLoading}
       />
 
       {/*회원가입 링크*/}

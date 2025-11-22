@@ -28,7 +28,7 @@ function formatDateLabel(dateString) {
 
 // storeLayout의 좌 슬라이드 (가게 홈)
 export default function StoreHome() {
-  const [reservations, setReservations] = useState([]); // 평평한 배열
+  const [reservations, seteservations] = useState([]); // 평평한 배열
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState(''); // 검색어
 

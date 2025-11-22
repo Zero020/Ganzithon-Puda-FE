@@ -12,5 +12,4 @@
 html,
 body {
   height: 100%;
-  overflow: hidden; /* ⬅️ 이걸로 기본 스크롤 막기 */
 }
