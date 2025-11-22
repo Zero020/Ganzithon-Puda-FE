@@ -1,15 +1,24 @@
 :root {
-  --color-primary: #c67c4e; /* 메인 컬러 */
-  --color-primary-dark: #523316; /* 어두운 톤 */
+  --color-primary: #c67c4e;
+  /* 메인 컬러 */
+  --color-primary-dark: #523316;
+  /* 어두운 톤 */
   --color-gray: #757981;
   --color-light-gray: #99a1af;
-  --color-background: #ffffff; /* 부드러운 배경 */
-  --color-secondary: #F3F4F6; /*연한 회색*/
-  --sub-text-color:#717182; /*진한 회색 */
-  --font-main: 'Arimo', sans-serif; /* 기본 폰트 */
+  --color-background: #ffffff;
+  /* 부드러운 배경 */
+  --color-secondary: #F3F4F6;
+  /*연한 회색*/
+  --sub-text-color: #717182;
+  /*진한 회색 */
+  --font-main: 'Arimo', sans-serif;
+  /* 기본 폰트 */
 }
 
 html,
 body {
-  height: 100%;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
 }
