@@ -1,5 +1,6 @@
-body{
-    overflow-y: auto;
+body {
+    display: flex;
+    justify-content: center;
 }
 
 .login-container {
@@ -7,7 +8,8 @@ body{
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    width: 100%;
+    width: 375px;
+    height: 812px;
     max-width: 600px;
     margin: 0 auto;
     padding: 2.8rem;
@@ -22,7 +24,8 @@ body{
     padding: 4px;
     margin-bottom: 4rem;
 }
-.back-button img{
+
+.back-button img {
     width: 0.6rem;
 }
 
@@ -35,7 +38,7 @@ body{
     height: 3.4rem;
 }
 
-.login-logo-area img{
+.login-logo-area img {
     height: 100%;
 }
 
@@ -57,4 +60,3 @@ body{
     cursor: pointer;
     padding: 0;
 }
-

@@ -1,15 +1,21 @@
+
 /* 전체 컨테이너 */
 .landing-container {
-    min-height: 100vh;
-    width: 100%;
-    margin: 0 auto;
-    padding: 2.5rem 1.5rem 2rem;
-    box-sizing: border-box;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 2rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
 
-    display: flex;
-    flex-direction: column;
-    gap: 1.8rem;
+  /* 여기 수정 */
+  min-height: 812px;  /* 기준 디바이스 높이 같은 값 */
+  /* 또는 height: 812px;  로 고정도 가능 */
+  overflow-y: auto;
+  position: relative;
 }
+
 
 /* 로고 섹션 */
 .landing-logo-wrapper {
