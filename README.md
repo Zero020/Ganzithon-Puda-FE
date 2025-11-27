@@ -1,6 +1,6 @@
 # 푸다(Fooda) – 음식 기부 예약 플랫폼
 
-<img width="789" height="443" alt="image" src="https://github.com/user-attachments/assets/c31571ff-d39f-4417-9212-43d74bb89e1f" />
+<img width="789" height="443" alt="image" src="https://github.com/user-attachments/assets/573c13a4-5424-4f31-99d0-738c2f6e919f" />
 
 <br><br>
 
