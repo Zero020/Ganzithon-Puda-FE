@@ -2,7 +2,7 @@
 
 <img width="789" height="443" alt="image" src="https://github.com/user-attachments/assets/573c13a4-5424-4f31-99d0-738c2f6e919f" />
 
-<br><br>
+<br>
 
 ## 목차
 
@@ -13,7 +13,7 @@
 5. [팀 소개](#팀-소개)
 6. [기타 정보](#기타-정보)
 
-<br><br>
+<br>
 
 ## 프로젝트 소개
 푸다는 매일 발생하는 베이커리·카페·식당 등의 남는 음식을
@@ -27,11 +27,7 @@
 
 - 가게 ↔ 복지시설 실시간 매칭·예약 시스템 제공
 
-**본 리포지토리는 푸 서비스의 프론트엔드 리포지토리입니다.
-#### 백엔드 리포지토리: https://github.com/Ganzithon-team6/team6-BE
-
-
-<br><br>
+<br>
 
 ## 문제 상황 & 해결 방식
 
@@ -61,7 +57,7 @@
 
 - 예약·픽업·리뷰까지 전 과정을 자동 로그로 기록
 
-<br><br>
+<br>
 
 ## 핵심 기능
 
@@ -76,14 +72,14 @@
 <img width="550" height="310" alt="image" src="https://github.com/user-attachments/assets/eff068f2-f8b4-4773-9f04-02865aa19944" />
 
 
-<br><br>
+<br>
 
 ## 기술 스택
 
 <img width="290" height="226" alt="image" src="https://github.com/user-attachments/assets/c74aa845-90c4-467a-ae7a-a029a6198d01" />
 
 
-<br><br>
+<br>
 
 ## 팀 소개
 
@@ -124,11 +120,14 @@
   </tr>
 </table>
 
-<br><br>
+
+<br>
 
 ## 기타 정보
 
 - 본 프로젝트는 **2025 간지톤 | 멋쟁이사자처럼 12개 대학 연합해커톤**을 위해 제작되었습니다.
 - 개발 기간: **2025.10.31 ~ 2025.11.22**
 - 기능 개발과 기획, 디자인까지 전 팀원이 협업하여 완성한 프로젝트입니다.
+- 본 리포지토리는 '푸다' 서비스의 프론트엔드 리포지토리입니다.
+#### 📎 백엔드 리포지토리: https://github.com/Ganzithon-team6/team6-BE
 
